@@ -10,6 +10,7 @@ public class Gus {
         System.out.print("[ USER ]: ");
     }
 
+
     public static void main(String[] args) {
         String logo = "          ██████╗ ██╗   ██╗███████╗\n"
                     + "         ██╔════╝ ██║   ██║██╔════╝\n"
@@ -24,8 +25,8 @@ public class Gus {
         System.out.println("\n" + gusPrefix + "How can i help you today");
         userPrefix();
 
-        String[] texts = new String[100];
-        int textCount = 0;
+        Task[] tasks = new Task[100];
+        int taskCount = 0;
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -33,17 +34,39 @@ public class Gus {
         while (!input.equals(endString)) {
             if (input.equals(listString)) {
                 System.out.println(gusPrefix + "Heres your list\n");
-                for (int i = 0; i < textCount; i++) {
-                    System.out.printf("         %d. %s \n", i+1, texts[i]);
+
+                if (taskCount==0) {
+                    System.out.println("         The list is now empty");
                 }
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.printf("         %d. %s \n", i+1, tasks[i].toString());
+                }
+                System.out.println();
+                userPrefix();
+
+            } else if (input.startsWith("mark ")) {
+                int index = Integer.parseInt(input.substring(5)) - 1;
+                tasks[index].mark();
+                System.out.printf("%sI have marked this task as done\n", gusPrefix);
+                System.out.println();
+                System.out.printf("          %s \n", tasks[index].toString());
+                System.out.println();
+                userPrefix();
+
+            } else if (input.startsWith("unmark ")) {
+                int index = Integer.parseInt(input.substring(7)) - 1;
+                tasks[index].unmark();
+                System.out.printf("%sI have marked this task as not done yet\n", gusPrefix);
+                System.out.println();
+                System.out.printf("          %s \n", tasks[index].toString());
                 System.out.println();
                 userPrefix();
 
             } else {
                 System.out.printf("%sAdded %s to the list\n", gusPrefix, input);
                 userPrefix();
-                texts[textCount] = input;
-                textCount += 1;
+                tasks[taskCount] = new Task(input);
+                taskCount += 1;
             }
             input = scanner.nextLine();
         }
