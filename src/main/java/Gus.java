@@ -23,7 +23,6 @@ public class Gus {
         System.out.println("\n\n" + logo);
         System.out.println(line);
         System.out.println("\n" + gusPrefix + "How can i help you today");
-        userPrefix();
 
         Task[] tasks = new Task[100];
         int taskCount = 0;
@@ -42,7 +41,6 @@ public class Gus {
                     System.out.printf("         %d. %s \n", i+1, tasks[i].toString());
                 }
                 System.out.println();
-                userPrefix();
 
             } else if (input.startsWith("mark ")) {
                 int index = Integer.parseInt(input.substring(5)) - 1;
@@ -51,7 +49,6 @@ public class Gus {
                 System.out.println();
                 System.out.printf("          %s \n", tasks[index].toString());
                 System.out.println();
-                userPrefix();
 
             } else if (input.startsWith("unmark ")) {
                 int index = Integer.parseInt(input.substring(7)) - 1;
@@ -60,11 +57,40 @@ public class Gus {
                 System.out.println();
                 System.out.printf("          %s \n", tasks[index].toString());
                 System.out.println();
-                userPrefix();
+
+            } else if (input.startsWith("todo ")) {
+                String title = input.substring(5);
+                tasks[taskCount] = new TodoTask(title);
+                taskCount++;
+                System.out.printf("%sAdded to-do task to the list\n", gusPrefix);
+                System.out.println();
+                System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                System.out.println();
+                System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
+
+            } else if (input.startsWith("deadline ")) {
+                String[] inpStrings = input.substring(9).split(" /by ");
+                tasks[taskCount] = new DeadlineTask(inpStrings[0], inpStrings[1]);
+                taskCount++;
+                System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
+                System.out.println();
+                System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                System.out.println();
+                System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
+
+            } else if (input.startsWith("event ")) {
+                String[] inpStringsOne = input.substring(6).split(" /from ");
+                String[] inpStringsTwo = inpStringsOne[1].split(" /to ");
+                tasks[taskCount] = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
+                taskCount++;
+                System.out.printf("%sAdded event task to the list\n", gusPrefix);
+                System.out.println();
+                System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                System.out.println();
+                System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
 
             } else {
                 System.out.printf("%sAdded %s to the list\n", gusPrefix, input);
-                userPrefix();
                 tasks[taskCount] = new Task(input);
                 taskCount += 1;
             }
