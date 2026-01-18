@@ -2,10 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gus {
-    public static String gusPrefix = "[ GUSTAVO ]: ";
-    public static String line = "______________________________________________";
-    public static String endString = "bye";
-    public static String listString = "list";
+    public static final String gusPrefix = "[ GUSTAVO ]: ";
+    public static final String line = "______________________________________________";
+
 
     public static void userPrefix() {
         System.out.print("[ USER ]: ");
@@ -30,132 +29,36 @@ public class Gus {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        while (!input.equals(endString)) {
+        while (Command.parseCommand(input) != Command.BYE) {
             try {
-                if (input.equals(listString)) {
-                    System.out.println(gusPrefix + "Heres your list\n");
-
-                    if (tasks.isEmpty()) {
-                        System.out.println("         The list is now empty");
-                    }
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.printf("         %d. %s \n", i + 1, tasks.get(i).toString());
-                    }
-                    System.out.println();
-
-                } else if (input.startsWith("delete ")) { 
-                    int index = Integer.parseInt(input.substring(7)) - 1;
-                    
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new GusException("Task number is invalid!");
-                    }
-
-                    if (input.length() <= 7) {
-                        throw new GusException("You must tell me which task to mark");
-                    }
-
-                    Task curr = tasks.remove(index);
-                    System.out.printf("%sI removed this task from the list\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", curr.toString());
-                    System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
-
-                } else if (input.startsWith("mark ")) {
-                    int index = Integer.parseInt(input.substring(5)) - 1;
-
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new GusException("Task number is invalid!");
-                    }
-
-                    if (input.length() <= 5) {
-                        throw new GusException("You must tell me which task to mark");
-                    }
-
-                    tasks.get(index).mark();
-                    System.out.printf("%sI have marked this task as done\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", tasks.get(index).toString());
-                    System.out.println();
-
-                } else if (input.startsWith("unmark ")) {
-                    int index = Integer.parseInt(input.substring(7)) - 1;
-
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new GusException("Task number is invalid!");
-                    }
-
-                    if (input.length() <= 7) {
-                        throw new GusException("You must tell me which task to unmark");
-                    }
-
-                    tasks.get(index).unmark();
-                    System.out.printf("%sI have marked this task as not done yet\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", tasks.get(index).toString());
-                    System.out.println();
-
-                } else if (input.startsWith("todo ")) {
-                    String title = input.substring(5).trim();
-
-                    if (title.isEmpty()) {
-                        throw new GusException("Hmm I don't know what is the title for this task");
-                    }
-
-                    Task curr = new TodoTask(title);
-                    tasks.add(curr);
-                    System.out.printf("%sAdded to-do task to the list\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", curr.toString());
-                    System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
-
-                } else if (input.startsWith("deadline ")) {
-                    String details = input.substring(9).trim();
-
-                    if (details.isEmpty()) {
-                        throw new GusException("I need more details to create this task!");
-                    }
-
-                    if (!details.contains(" /by ")) {
-                        throw new GusException("Give me your deadline with /by!");
-                    }
-
-                    String[] inpStrings = details.split(" /by ");
-
-                    Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
-                    tasks.add(curr);
-                    System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", curr.toString());
-                    System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
-
-                } else if (input.startsWith("event ")) {
-                    String details = input.substring(6).trim();
-
-                    if (details.isEmpty()) {
-                        throw new GusException("I need more details to create this task!");
-                    }
-
-                    if (!details.contains(" /from ") || !details.contains(" /to ")) {
-                        throw new GusException(
-                                "Give me both from and to timeline with /from then /to!");
-                    }
-
-                    String[] inpStringsOne = details.split(" /from ");
-                    String[] inpStringsTwo = inpStringsOne[1].split(" /to ");
-
-                    Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
-                    tasks.add(curr);
-                    System.out.printf("%sAdded event task to the list\n", gusPrefix);
-                    System.out.println();
-                    System.out.printf("          %s \n", curr.toString());
-                    System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
-
-                } else {
-                    throw new GusException("I don't understand your language");
+                Command currCommand = Command.parseCommand(input);
+                
+                switch (currCommand) {
+                    case LIST:
+                        CommandHandler.handleList(tasks);
+                        break;
+                    case MARK:
+                        CommandHandler.handleMark(input, tasks);
+                        break;
+                    case UNMARK:
+                        CommandHandler.handleUnmark(input, tasks);
+                        break;
+                    case DELETE:
+                        CommandHandler.handleDelete(input, tasks);
+                        break;
+                    case TODO:
+                        CommandHandler.handleTodo(input, tasks);
+                        break;
+                    case DEADLINE:
+                        CommandHandler.handleDeadline(input, tasks);
+                        break;
+                    case EVENT:
+                        CommandHandler.handleEvent(input, tasks);
+                        break;
+                    case ELSE:
+                        throw new GusException("I dont't understand your language");
+                    case BYE:
+                        break;
                 }
             } catch (GusException e) {
                 System.out.println(gusPrefix + e.getMessage());
