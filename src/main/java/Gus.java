@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gus {
@@ -11,9 +12,12 @@ public class Gus {
     }
 
     public static void main(String[] args) {
-        String logo = "          ██████╗ ██╗   ██╗███████╗\n" + "         ██╔════╝ ██║   ██║██╔════╝\n"
-                + "         ██║  ███╗██║   ██║███████╗\n" + "         ██║   ██║██║   ██║╚════██║\n"
-                + "         ╚██████╔╝╚██████╔╝███████║\n" + "          ╚═════╝  ╚═════╝ ╚══════╝\n";
+        String logo = "          ██████╗ ██╗   ██╗███████╗\n"
+                    + "         ██╔════╝ ██║   ██║██╔════╝\n"
+                    + "         ██║  ███╗██║   ██║███████╗\n"
+                    + "         ██║   ██║██║   ██║╚════██║\n"
+                    + "         ╚██████╔╝╚██████╔╝███████║\n"
+                    + "          ╚═════╝  ╚═════╝ ╚══════╝\n";
         System.out.println("\nHello and welcome to Los Pollos Hermanos");
         System.out.println("My name is Gustavo, but you can call me");
         System.out.println(line);
@@ -21,8 +25,7 @@ public class Gus {
         System.out.println(line);
         System.out.println("\n" + gusPrefix + "How can i help you today");
 
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -32,18 +35,36 @@ public class Gus {
                 if (input.equals(listString)) {
                     System.out.println(gusPrefix + "Heres your list\n");
 
-                    if (taskCount == 0) {
+                    if (tasks.isEmpty()) {
                         System.out.println("         The list is now empty");
                     }
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.printf("         %d. %s \n", i + 1, tasks[i].toString());
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.printf("         %d. %s \n", i + 1, tasks.get(i).toString());
                     }
                     System.out.println();
+
+                } else if (input.startsWith("delete ")) { 
+                    int index = Integer.parseInt(input.substring(7)) - 1;
+                    
+                    if (index < 0 || index >= tasks.size()) {
+                        throw new GusException("Task number is invalid!");
+                    }
+
+                    if (input.length() <= 7) {
+                        throw new GusException("You must tell me which task to mark");
+                    }
+
+                    Task curr = tasks.remove(index);
+                    System.out.printf("%sI removed this task from the list\n", gusPrefix);
+                    System.out.println();
+                    System.out.printf("          %s \n", curr.toString());
+                    System.out.println();
+                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
 
                 } else if (input.startsWith("mark ")) {
                     int index = Integer.parseInt(input.substring(5)) - 1;
 
-                    if (index < 0 || index >= taskCount) {
+                    if (index < 0 || index >= tasks.size()) {
                         throw new GusException("Task number is invalid!");
                     }
 
@@ -51,16 +72,16 @@ public class Gus {
                         throw new GusException("You must tell me which task to mark");
                     }
 
-                    tasks[index].mark();
+                    tasks.get(index).mark();
                     System.out.printf("%sI have marked this task as done\n", gusPrefix);
                     System.out.println();
-                    System.out.printf("          %s \n", tasks[index].toString());
+                    System.out.printf("          %s \n", tasks.get(index).toString());
                     System.out.println();
 
                 } else if (input.startsWith("unmark ")) {
                     int index = Integer.parseInt(input.substring(7)) - 1;
 
-                    if (index < 0 || index >= taskCount) {
+                    if (index < 0 || index >= tasks.size()) {
                         throw new GusException("Task number is invalid!");
                     }
 
@@ -68,10 +89,10 @@ public class Gus {
                         throw new GusException("You must tell me which task to unmark");
                     }
 
-                    tasks[index].unmark();
+                    tasks.get(index).unmark();
                     System.out.printf("%sI have marked this task as not done yet\n", gusPrefix);
                     System.out.println();
-                    System.out.printf("          %s \n", tasks[index].toString());
+                    System.out.printf("          %s \n", tasks.get(index).toString());
                     System.out.println();
 
                 } else if (input.startsWith("todo ")) {
@@ -81,13 +102,13 @@ public class Gus {
                         throw new GusException("Hmm I don't know what is the title for this task");
                     }
 
-                    tasks[taskCount] = new TodoTask(title);
-                    taskCount++;
+                    Task curr = new TodoTask(title);
+                    tasks.add(curr);
                     System.out.printf("%sAdded to-do task to the list\n", gusPrefix);
                     System.out.println();
-                    System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                    System.out.printf("          %s \n", curr.toString());
                     System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
+                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
 
                 } else if (input.startsWith("deadline ")) {
                     String details = input.substring(9).trim();
@@ -102,13 +123,13 @@ public class Gus {
 
                     String[] inpStrings = details.split(" /by ");
 
-                    tasks[taskCount] = new DeadlineTask(inpStrings[0], inpStrings[1]);
-                    taskCount++;
+                    Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
+                    tasks.add(curr);
                     System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
                     System.out.println();
-                    System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                    System.out.printf("          %s \n", curr.toString());
                     System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
+                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
 
                 } else if (input.startsWith("event ")) {
                     String details = input.substring(6).trim();
@@ -125,13 +146,13 @@ public class Gus {
                     String[] inpStringsOne = details.split(" /from ");
                     String[] inpStringsTwo = inpStringsOne[1].split(" /to ");
 
-                    tasks[taskCount] = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
-                    taskCount++;
+                    Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
+                    tasks.add(curr);
                     System.out.printf("%sAdded event task to the list\n", gusPrefix);
                     System.out.println();
-                    System.out.printf("          %s \n", tasks[taskCount - 1].toString());
+                    System.out.printf("          %s \n", curr.toString());
                     System.out.println();
-                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, taskCount);
+                    System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
 
                 } else {
                     throw new GusException("I don't understand your language");
@@ -139,7 +160,7 @@ public class Gus {
             } catch (GusException e) {
                 System.out.println(gusPrefix + e.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println(gusPrefix + "Please give me your task number!");
+                System.out.println(gusPrefix + "Please tell me your task number");
             }
             input = scanner.nextLine();
         }
