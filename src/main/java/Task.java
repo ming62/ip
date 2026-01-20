@@ -15,6 +15,14 @@ public class Task {
         this.isDone = false;
     }
 
+    public boolean getIsDone() {
+        return this.isDone;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s", this.isDone ? "X": " ", this.title);
