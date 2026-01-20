@@ -67,7 +67,7 @@ public class Storage {
                 task = new DeadlineTask(title, details[3]);
                 break;
             case "E":
-                String[] furDetails = details[3].split(" to ");
+                String[] furDetails = details[3].split(" to: ");
                 String from = furDetails[0].replace("from: ", "");
                 String to = furDetails[1];
                 task = new EventTask(title, from, to);
@@ -115,13 +115,13 @@ public class Storage {
             type = "T";
         } else if (task instanceof DeadlineTask) {
             type = "D";
-            details = String.format(" | %s", ((DeadlineTask) task).getDeadline());
+            details = String.format("| %s", ((DeadlineTask) task).getDeadline());
         } else if (task instanceof EventTask) {
             type = "E";
-            details = String.format(" | from: %s to: %s", ((EventTask) task).getFrom(), ((EventTask) task).getTo());
+            details = String.format("| from: %s to: %s", ((EventTask) task).getFrom(), ((EventTask) task).getTo());
         } 
 
-        return String.format("%s | %s | %s %s", type, task.getTitle(), task.getIsDone() ? "1" : "0", details);
+        return String.format("%s | %s | %s %s", type, task.getIsDone() ? "1" : "0", task.getTitle(), details);
     }
 
 

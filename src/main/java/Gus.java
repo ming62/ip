@@ -24,10 +24,19 @@ public class Gus {
         System.out.println(line);
         System.out.println("\n" + gusPrefix + "How can i help you today");
 
+
+        Storage storage = new Storage("./data/gus.txt");
         ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = storage.loadTask();
+        } catch (GusException e) {
+            System.out.println(gusPrefix + e.getMessage());
+        }
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
+        
 
         while (Command.parseCommand(input) != Command.BYE) {
             try {
@@ -66,6 +75,12 @@ public class Gus {
                 System.out.println(gusPrefix + "Please tell me your task number");
             }
             input = scanner.nextLine();
+        }
+
+        try {
+            storage.saveTask(tasks);
+        } catch (GusException e) {
+            System.out.println(gusPrefix + e.getMessage());
         }
 
         System.out.println(gusPrefix + "Thats all for today");
