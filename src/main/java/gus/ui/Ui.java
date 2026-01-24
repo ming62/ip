@@ -11,12 +11,17 @@ public class Ui {
     }
 
     public void showWelcome() {
-        String logo = "          ██████╗ ██╗   ██╗███████╗\n"
-                    + "         ██╔════╝ ██║   ██║██╔════╝\n"
-                    + "         ██║  ███╗██║   ██║███████╗\n"
-                    + "         ██║   ██║██║   ██║╚════██║\n"
-                    + "         ╚██████╔╝╚██████╔╝███████║\n"
-                    + "          ╚═════╝  ╚═════╝ ╚══════╝\n";
+        String logo  =  "         /$$$$$$  /$$   /$$  /$$$$$$        \n"
+                      + "       /$$__  $$| $$  | $$ /$$__  $$        \n"
+                      + "      | $$  \\__/| $$  | $$| $$  \\__/       \n"
+                      + "      | $$ /$$$$| $$  | $$|  $$$$$$        \n"
+                      + "      | $$|_  $$| $$  | $$ \\____  $$       \n"
+                      + "      | $$  \\ $$| $$  | $$ /$$  \\ $$       \n"
+                      + "      |  $$$$$$/|  $$$$$$/|  $$$$$$/       \n"
+                      + "      \\______/  \\______/  \\______/         \n";
+                                    
+                                    
+                                    
         System.out.println("\nHello and welcome to Los Pollos Hermanos");
         System.out.println("My name is Gustavo, but you can call me");
         System.out.println(LINE);
