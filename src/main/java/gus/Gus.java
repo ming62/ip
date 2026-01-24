@@ -100,6 +100,9 @@ public class Gus {
             case ON:
                 handleOn(input);
                 break;
+            case FIND:
+                handleFind(input);
+                break;
             case ELSE:
                 throw new GusException("I'm afraid I don't understand that request. Please clarify.");
             case BYE:
@@ -203,7 +206,13 @@ public class Gus {
         LocalDate date = Parser.parseDate(input);
         String formattedDate = date.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy"));
         String tasksString = tasks.getListByDate(date);
-        ui.showFoundTasks(formattedDate, tasksString);
+        ui.showOnTasks(formattedDate, tasksString);
+    }
+
+    private void handleFind(String input) throws GusException {
+        String k = Parser.parseDesc(input, "find");
+        String tasksString = tasks.getListByKeyword(k);
+        ui.showFoundTasks(tasksString);
     }
 
     public static void main(String[] args) {
