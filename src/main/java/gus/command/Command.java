@@ -1,4 +1,8 @@
 package gus.command;
+
+/**
+ * Represents the different types of commands.
+ */
 public enum Command {
     BYE,
     LIST,
@@ -13,6 +17,12 @@ public enum Command {
 
 
 
+    /**
+     * Parses a command from user input.
+     * 
+     * @param input The user input string.
+     * @return The command type.
+     */
     public static Command parseCommand(String input) {
 
         if (input.trim().isEmpty()) {
