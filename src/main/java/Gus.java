@@ -64,6 +64,9 @@ public class Gus {
                     case EVENT:
                         CommandHandler.handleEvent(input, tasks);
                         break;
+                    case ON:
+                        CommandHandler.handleOn(input, tasks);
+                        break;
                     case ELSE:
                         throw new GusException("I dont't understand your language");
                     case BYE:

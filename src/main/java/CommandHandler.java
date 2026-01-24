@@ -1,3 +1,6 @@
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CommandHandler {
@@ -116,13 +119,17 @@ public class CommandHandler {
 
         String[] inpStrings = details.split(" /by ");
 
-        Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
-        tasks.add(curr);
-        System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
-        System.out.println();
-        System.out.printf("          %s \n", curr.toString());
-        System.out.println();
-        System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        try {
+            Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
+            tasks.add(curr);
+            System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
+            System.out.println();
+            System.out.printf("          %s \n", curr.toString());
+            System.out.println();
+            System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        } catch (DateTimeException e) {
+            throw new GusException("Give me your deadline date by the format yyyy-MM-dd HHmm ");
+        }
     }
 
     public static void handleEvent(String input, ArrayList<Task> tasks) throws GusException {
@@ -145,13 +152,55 @@ public class CommandHandler {
         String[] inpStringsOne = details.split(" /from ");
         String[] inpStringsTwo = inpStringsOne[1].split(" /to ");
 
-        Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
-        tasks.add(curr);
-        System.out.printf("%sAdded event task to the list\n", gusPrefix);
-        System.out.println();
-        System.out.printf("          %s \n", curr.toString());
-        System.out.println();
-        System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        try {
+            Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
+            tasks.add(curr);
+            System.out.printf("%sAdded event task to the list\n", gusPrefix);
+            System.out.println();
+            System.out.printf("          %s \n", curr.toString());
+            System.out.println();
+            System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        } catch (DateTimeException e) {
+            throw new GusException("Give me your dates by the format yyyy-MM-dd HHmm ");
+        }
+    }
+
+    public static void handleOn(String input, ArrayList<Task> tasks) throws GusException {
+        if (input.length() <= 3){
+            throw new GusException("I need the date and in the format yyyy-MM-dd");
+        }
+
+        String details = input.substring(3).trim();
+
+        if (details.isEmpty()) {
+            throw new GusException("I need the date and in the format yyyy-MM-dd");
+        }
+
+        try {
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(details, format);
+
+            System.out.printf("%sTasks on %s are\n", gusPrefix, date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
+            System.out.println();
+            
+            int count = 0;
+            for (Task task: tasks) {
+                if (task.occursOn(date)) {
+                    System.out.printf("          %s \n", task.toString());
+                    count++;
+                }
+            }
+
+            if (count == 0) {
+                System.out.println("         No tasks to be done on this date");
+            }
+
+            System.out.println();
+
+        } catch (DateTimeException e) {
+            throw new GusException("I need the date in the format yyyy-MM-dd");
+        }
+
     }
 
 }

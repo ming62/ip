@@ -50,37 +50,41 @@ public class Storage {
         return tasks;
     }
 
-    public Task parseLine(String s) {
-        String[] details = s.split(" \\| ");
+    public Task parseLine(String s) throws GusException{
+        try {
+            String[] details = s.split(" \\| ");
 
-        String type = details[0];
-        boolean isDone = details[1].equals("1");
-        String title = details[2];
+            String type = details[0];
+            boolean isDone = details[1].equals("1");
+            String title = details[2];
 
-        Task task = null;
+            Task task = null;
 
-        switch (type) {
-            case "T":
-                task = new TodoTask(title);
-                break;
-            case "D":
-                task = new DeadlineTask(title, details[3]);
-                break;
-            case "E":
-                String[] furDetails = details[3].split(" to: ");
-                String from = furDetails[0].replace("from: ", "");
-                String to = furDetails[1];
-                task = new EventTask(title, from, to);
-                break;
-        }
-
-        if (task != null) {
-            if (isDone) {
-                task.mark();
+            switch (type) {
+                case "T":
+                    task = new TodoTask(title);
+                    break;
+                case "D":
+                    task = new DeadlineTask(title, details[3]);
+                    break;
+                case "E":
+                    String[] furDetails = details[3].split(" to: ");
+                    String from = furDetails[0].replace("from: ", "");
+                    String to = furDetails[1];
+                    task = new EventTask(title, from, to);
+                    break;
             }
-        }
 
-        return task;
+            if (task != null) {
+                if (isDone) {
+                    task.mark();
+                }
+            }
+
+            return task;
+        } catch (Exception e) {
+            throw new GusException("Data file is corrupted");
+        }
     }
 
     public void saveTask(ArrayList<Task> tasks) throws GusException {
@@ -115,10 +119,10 @@ public class Storage {
             type = "T";
         } else if (task instanceof DeadlineTask) {
             type = "D";
-            details = String.format("| %s", ((DeadlineTask) task).getDeadline());
+            details = String.format("| %s", ((DeadlineTask) task).getDeadlineInputString());
         } else if (task instanceof EventTask) {
             type = "E";
-            details = String.format("| from: %s to: %s", ((EventTask) task).getFrom(), ((EventTask) task).getTo());
+            details = String.format("| from: %s to: %s", ((EventTask) task).getFromInputString(), ((EventTask) task).getToInputString());
         } 
 
         return String.format("%s | %s | %s %s", type, task.getIsDone() ? "1" : "0", task.getTitle(), details);
