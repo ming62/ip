@@ -1,6 +1,10 @@
+package gus.task;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import gus.exception.GusException;
 
 public class EventTask extends Task {
     private LocalDateTime to;
