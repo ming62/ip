@@ -1,12 +1,17 @@
 package gus;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import gus.task.*;
 import gus.command.Command;
 import gus.command.Parser;
 import gus.exception.GusException;
 import gus.storage.Storage;
+import gus.task.Task;
+import gus.task.TodoTask;
+import gus.task.DeadlineTask;
+import gus.task.EventTask;
+
 import gus.ui.TaskList;
 import gus.ui.Ui;
 
@@ -29,7 +34,7 @@ public class Gus {
         } catch (GusException e) {
             ui.showText(e.getMessage());
             tasks = new TaskList(new ArrayList<Task>());
-        } 
+        }
     }
 
     /**
@@ -47,7 +52,7 @@ public class Gus {
                 executeCommand(currCommand, input);
             } catch (GusException e) {
                 ui.showText(e.getMessage());
-            } 
+            }
             input = ui.readCommand();
         }
 
@@ -99,6 +104,8 @@ public class Gus {
                 throw new GusException("I'm afraid I don't understand that request. Please clarify.");
             case BYE:
                 break;
+            default:
+                break;
         }
     }
 
@@ -106,7 +113,7 @@ public class Gus {
      * Displays the list of all tasks.
      */
     private void handleList() {
-        ui.showTaskList(tasks.getListSring());
+        ui.showTaskList(tasks.getListString());
     }
 
     /**
@@ -151,6 +158,7 @@ public class Gus {
      * @param input The user input containing the task title.
      * @throws GusException If the task title is invalid.
      */
+
     private void handleTodo(String input) throws GusException {
         String title = Parser.parseDesc(input, "todo");
         Task t = new TodoTask(title);
