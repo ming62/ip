@@ -16,7 +16,7 @@ public class Storage {
         this.filePath = Paths.get(s);
     }
 
-    public ArrayList<Task> loadTask() throws GusException {
+    public ArrayList<Task> load() throws GusException {
 
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -87,7 +87,7 @@ public class Storage {
         }
     }
 
-    public void saveTask(ArrayList<Task> tasks) throws GusException {
+    public void save(ArrayList<Task> tasks) throws GusException {
 
         Path directory = filePath.getParent();
         if (directory != null && !Files.exists(directory)) {
