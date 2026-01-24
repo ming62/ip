@@ -1,3 +1,0 @@
-T | 0 | fight      
-E | 0 | nice | from: 10 to: 11
-D | 0 | task | 10pm

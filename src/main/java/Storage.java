@@ -115,7 +115,7 @@ public class Storage {
             type = "T";
         } else if (task instanceof DeadlineTask) {
             type = "D";
-            details = String.format("| %s", ((DeadlineTask) task).getDeadline());
+            details = String.format("| %s", ((DeadlineTask) task).getDeadlineString());
         } else if (task instanceof EventTask) {
             type = "E";
             details = String.format("| from: %s to: %s", ((EventTask) task).getFrom(), ((EventTask) task).getTo());

@@ -116,13 +116,17 @@ public class CommandHandler {
 
         String[] inpStrings = details.split(" /by ");
 
-        Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
-        tasks.add(curr);
-        System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
-        System.out.println();
-        System.out.printf("          %s \n", curr.toString());
-        System.out.println();
-        System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        try {
+            Task curr = new DeadlineTask(inpStrings[0], inpStrings[1]);
+            tasks.add(curr);
+            System.out.printf("%sAdded deadline task to the list\n", gusPrefix);
+            System.out.println();
+            System.out.printf("          %s \n", curr.toString());
+            System.out.println();
+            System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        } catch (Exception e) {
+            throw new GusException("Give me your deadline date by the format yyyy-MM-dd HHmm ");
+        }
     }
 
     public static void handleEvent(String input, ArrayList<Task> tasks) throws GusException {

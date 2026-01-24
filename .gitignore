@@ -19,3 +19,5 @@ text-ui-test/EXPECTED-UNIX.TXT
 *.class
 
 test-lib
+
+data/
