@@ -1,3 +1,4 @@
+package gus.command;
 public enum Command {
     BYE,
     LIST,

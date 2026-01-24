@@ -1,3 +1,5 @@
+package gus.task;
+
 public class Task {
     private String title;
     private boolean isDone;

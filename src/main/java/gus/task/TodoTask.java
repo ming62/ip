@@ -1,3 +1,5 @@
+package gus.task;
+
 public class TodoTask extends Task {
 
     public TodoTask(String t) {

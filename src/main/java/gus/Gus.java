@@ -1,5 +1,14 @@
+package gus;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import gus.task.*;
+import gus.command.Command;
+import gus.command.Parser;
+import gus.exception.GusException;
+import gus.storage.Storage;
+import gus.ui.TaskList;
+import gus.ui.Ui;
 
 public class Gus {
     private Storage storage;

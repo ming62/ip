@@ -1,4 +1,9 @@
+package gus.ui;
 import java.util.ArrayList;
+
+import gus.exception.GusException;
+import gus.task.*;
+
 import java.time.LocalDate;
 
 public class TaskList {
