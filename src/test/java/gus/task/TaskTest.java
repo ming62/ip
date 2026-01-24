@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-
 public class TaskTest {
-    
+
     @Test
     public void testTaskCreation() {
         Task task = new Task("Eat");
         assertEquals("Eat", task.getTitle());
-        assertFalse(task.getIsDone());;
+        assertFalse(task.isDone());
+        ;
     }
 
     @Test
