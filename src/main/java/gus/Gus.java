@@ -1,12 +1,17 @@
 package gus;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import gus.task.*;
 import gus.command.Command;
 import gus.command.Parser;
 import gus.exception.GusException;
 import gus.storage.Storage;
+import gus.task.Task;
+import gus.task.TodoTask;
+import gus.task.DeadlineTask;
+import gus.task.EventTask;
+
 import gus.ui.TaskList;
 import gus.ui.Ui;
 
@@ -24,7 +29,7 @@ public class Gus {
         } catch (GusException e) {
             ui.showText(e.getMessage());
             tasks = new TaskList(new ArrayList<Task>());
-        } 
+        }
     }
 
     public void run() {
@@ -38,7 +43,7 @@ public class Gus {
                 executeCommand(currCommand, input);
             } catch (GusException e) {
                 ui.showText(e.getMessage());
-            } 
+            }
             input = ui.readCommand();
         }
 
@@ -82,11 +87,13 @@ public class Gus {
                 throw new GusException("I don't understand your language");
             case BYE:
                 break;
+            default:
+                break;
         }
     }
 
     private void handleList() {
-        ui.showTaskList(tasks.getListSring());
+        ui.showTaskList(tasks.getListString());
     }
 
     private void handleMark(String input) throws GusException {
@@ -106,6 +113,7 @@ public class Gus {
         Task t = tasks.deleteTask(index);
         ui.showTaskDeleted(t.toString(), tasks.size());
     }
+
     private void handleTodo(String input) throws GusException {
         String title = Parser.parseDesc(input, "todo");
         Task t = new TodoTask(title);
