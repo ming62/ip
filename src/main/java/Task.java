@@ -23,6 +23,10 @@ public class Task {
         return this.title;
     }
 
+    public boolean occursOn(java.time.LocalDate d) {
+        return false;
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s", this.isDone ? "X": " ", this.title);

@@ -7,7 +7,9 @@ public enum Command {
     TODO,
     DEADLINE,
     EVENT,
+    ON,
     ELSE;
+
 
 
     public static Command parseCommand(String input) {

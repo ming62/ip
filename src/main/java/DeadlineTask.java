@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DeadlineTask extends Task {
@@ -22,6 +23,11 @@ public class DeadlineTask extends Task {
     
     public String getDeadlineOutputString() {
         return this.deadline.format(OUTPUT_FORMAT);
+    }
+
+    @Override   
+    public boolean occursOn(LocalDate d) {
+        return this.deadline.toLocalDate().equals(d);
     }
 
     @Override
