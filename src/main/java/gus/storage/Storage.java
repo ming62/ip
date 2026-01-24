@@ -12,14 +12,27 @@ import java.util.Scanner;
 import gus.task.*;
 import gus.exception.GusException;
 
-
+/**
+ * Handles loading and saving tasks to a file.
+ */
 public class Storage {
     private Path filePath;
 
+    /**
+     * Creates a Storage with the given file path.
+     * 
+     * @param s The file path as a string.
+     */
     public Storage(String s) {
         this.filePath = Paths.get(s);
     }
 
+    /**
+     * Loads tasks from the file.
+     * 
+     * @return The list of tasks.
+     * @throws GusException If there is an error loading the file.
+     */
     public ArrayList<Task> load() throws GusException {
 
         ArrayList<Task> tasks = new ArrayList<>();
@@ -29,7 +42,7 @@ public class Storage {
             try {
                 Files.createDirectories(directory);
             } catch (IOException e) {
-                throw new GusException("We have an error while creating directory");
+                throw new GusException("I apologize, but there was an error creating the directory.");
             }
         }
 
@@ -43,17 +56,24 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Task task = parseLine(line);
-                if (task != null) {tasks.add(task);};
+                if (task != null) {tasks.add(task);}
             }
             scanner.close();
 
         } catch (FileNotFoundException e) {
-            throw new GusException("We did not find the file to be loaded");
+            throw new GusException("I'm afraid the data file could not be found.");
         }
 
         return tasks;
     }
 
+    /**
+     * Parses a line from the data file into a task.
+     * 
+     * @param s The line to parse.
+     * @return The parsed task.
+     * @throws GusException If the line is corrupted.
+     */
     public Task parseLine(String s) throws GusException{
         try {
             String[] details = s.split(" \\| ");
@@ -87,10 +107,16 @@ public class Storage {
 
             return task;
         } catch (Exception e) {
-            throw new GusException("Data file is corrupted");
+            throw new GusException("I'm afraid the data file appears to be corrupted.");
         }
     }
 
+    /**
+     * Saves tasks to the file.
+     * 
+     * @param tasks The list of tasks to save.
+     * @throws GusException If there is an error saving the file.
+     */
     public void save(ArrayList<Task> tasks) throws GusException {
 
         Path directory = filePath.getParent();
@@ -98,7 +124,7 @@ public class Storage {
             try {
                 Files.createDirectories(directory);
             } catch (IOException e) {
-                throw new GusException("We have an error while creating directory");
+                throw new GusException("I apologize, but there was an error creating the directory.");
             }
         }
 
@@ -109,11 +135,17 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            throw new GusException("We have an error while saving tasks");
+            throw new GusException("I apologize, but there was an error saving your tasks.");
         }
 
     }
 
+    /**
+     * Formats a task into a line for saving to file.
+     * 
+     * @param task The task to format.
+     * @return The formatted line.
+     */
     public String formatLine(Task task) {
         String type = "";
 

@@ -15,6 +15,11 @@ public class Gus {
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Gus instance with the file path for storage.
+     *
+     * @param file The file path where tasks are stored.
+     */
     public Gus(String file) {
         ui = new Ui();
         storage = new Storage(file);
@@ -27,6 +32,10 @@ public class Gus {
         } 
     }
 
+    /**
+     * Executes the main program loop.
+     * Reads user input, parse command, execute command, and save tasks on bye command.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -52,6 +61,14 @@ public class Gus {
         ui.close();
     }
 
+    
+    /**
+     * Executes the given command with the provided input.
+     *
+     * @param command The command to execute.
+     * @param input The user input string.
+     * @throws GusException If the command execution fails.
+     */
     private void executeCommand(Command command, String input) throws GusException {
         switch (command) {
             case LIST:
@@ -79,33 +96,61 @@ public class Gus {
                 handleOn(input);
                 break;
             case ELSE:
-                throw new GusException("I don't understand your language");
+                throw new GusException("I'm afraid I don't understand that request. Please clarify.");
             case BYE:
                 break;
         }
     }
 
+    /**
+     * Displays the list of all tasks.
+     */
     private void handleList() {
         ui.showTaskList(tasks.getListSring());
     }
 
+    /**
+     * Marks a task as done.
+     *
+     * @param input The user input containing the task index.
+     * @throws GusException If the task index is invalid.
+     */
     private void handleMark(String input) throws GusException {
         int index = Parser.parseTaskIndex(input, "mark");
         tasks.markTask(index);
         ui.showTaskMarked(tasks.getTask(index).toString());
     }
 
+    /**
+     * Marks a task as not done.
+     *
+     * @param input The user input containing the task index.
+     * @throws GusException If the task index is invalid.
+     */
     private void handleUnmark(String input) throws GusException {
         int index = Parser.parseTaskIndex(input, "unmark");
         tasks.unmarkTask(index);
         ui.showTaskUnmarked(tasks.getTask(index).toString());
     }
 
+    /**
+     * Deletes a task.
+     *
+     * @param input The user input containing the task index.
+     * @throws GusException If the task index is invalid.
+     */
     private void handleDelete(String input) throws GusException {
         int index = Parser.parseTaskIndex(input, "delete");
         Task t = tasks.deleteTask(index);
         ui.showTaskDeleted(t.toString(), tasks.size());
     }
+
+    /**
+     * Creates and adds a todo task.
+     *
+     * @param input The user input containing the task title.
+     * @throws GusException If the task title is invalid.
+     */
     private void handleTodo(String input) throws GusException {
         String title = Parser.parseDesc(input, "todo");
         Task t = new TodoTask(title);
@@ -113,6 +158,12 @@ public class Gus {
         ui.showTaskAdded(t.toString(), tasks.size());
     }
 
+    /**
+     * Creates and adds a deadline task.
+     *
+     * @param input The user input containing the task title and deadline.
+     * @throws GusException If the input format is invalid.
+     */
     private void handleDeadline(String input) throws GusException {
         String[] details = Parser.parseDeadline(input);
 
@@ -121,6 +172,12 @@ public class Gus {
         ui.showTaskAdded(t.toString(), tasks.size());
     }
 
+    /**
+     * Creates and adds a deadline task.
+     *
+     * @param input The user input containing the task title, from and to timestamp.
+     * @throws GusException If the input format is invalid.
+     */
     private void handleEvent(String input) throws GusException {
         String[] details = Parser.parseEvent(input);
         Task t = new EventTask(details[0], details[1], details[2]);
@@ -128,6 +185,12 @@ public class Gus {
         ui.showTaskAdded(t.toString(), tasks.size());
     }
 
+    /**
+     * Finds the tasks scheduled on a specific date.
+     *
+     * @param input The user input containing the date.
+     * @throws GusException If the date format is invalid.
+     */
     private void handleOn(String input) throws GusException {
         LocalDate date = Parser.parseDate(input);
         String formattedDate = date.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy"));
