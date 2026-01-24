@@ -1,3 +1,4 @@
+import java.time.DateTimeException;
 import java.util.ArrayList;
 
 public class CommandHandler {
@@ -124,7 +125,7 @@ public class CommandHandler {
             System.out.printf("          %s \n", curr.toString());
             System.out.println();
             System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
-        } catch (Exception e) {
+        } catch (DateTimeException e) {
             throw new GusException("Give me your deadline date by the format yyyy-MM-dd HHmm ");
         }
     }
@@ -149,13 +150,17 @@ public class CommandHandler {
         String[] inpStringsOne = details.split(" /from ");
         String[] inpStringsTwo = inpStringsOne[1].split(" /to ");
 
-        Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
-        tasks.add(curr);
-        System.out.printf("%sAdded event task to the list\n", gusPrefix);
-        System.out.println();
-        System.out.printf("          %s \n", curr.toString());
-        System.out.println();
-        System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        try {
+            Task curr = new EventTask(inpStringsOne[0], inpStringsTwo[0], inpStringsTwo[1]);
+            tasks.add(curr);
+            System.out.printf("%sAdded event task to the list\n", gusPrefix);
+            System.out.println();
+            System.out.printf("          %s \n", curr.toString());
+            System.out.println();
+            System.out.printf("%sNow we have %d tasks in the list\n", gusPrefix, tasks.size());
+        } catch (DateTimeException e) {
+            throw new GusException("Give me your dates by the format yyyy-MM-dd HHmm ");
+        }
     }
 
 }

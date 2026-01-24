@@ -15,7 +15,12 @@ public class DeadlineTask extends Task {
         return this.deadline;
     }
 
-    public String getDeadlineString() {
+    public String getDeadlineInputString() {
+        return this.deadline.format(INPUT_FORMAT);
+    }
+
+    
+    public String getDeadlineOutputString() {
         return this.deadline.format(OUTPUT_FORMAT);
     }
 
