@@ -75,35 +75,74 @@ public class TaskList {
     /**
      * Deletes a task at that index.
      *
-     * @param index The task index.
-     * @return The deleted task.
+     * @param indices The indices of tasks to unmark.
+     * @return Array of deleted tasks.
      * @throws GusException If the index is invalid.
      */
-    public Task deleteTask(int index) throws GusException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new GusException("I'm sorry, but that task number does not exist.");
+    public Task[] deleteTask(int... indices) throws GusException {
+
+        for (int index : indices) {
+            if (index < 0 || index >= tasks.size()) {
+                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
+            }
+        } 
+
+        Task[] deletedTasks = new Task[indices.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            deletedTasks[i] = tasks.remove(indices[i]);
         }
-        return tasks.remove(index);
+
+        return deletedTasks;
     }
 
     /**
-     * Marks a task as done.
+     * Marks tasks as done and returns them.
      *
-     * @param index The task index.
-     * @throws GusException If the index is invalid.
+     * @param indices The indices of tasks to mark.
+     * @return Array of marked tasks.
+     * @throws GusException If any index is invalid.
      */
-    public void markTask(int index) throws GusException {
-        getTask(index).mark();
+    public Task[] markTask(int... indices) throws GusException {
+
+        for (int index : indices) {
+            if (index < 0 || index >= tasks.size()) {
+                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
+            }
+        } 
+
+        Task[] markedTasks = new Task[indices.length];
+        
+        for (int i = 0; i < indices.length; i++) {
+            tasks.get(indices[i]).mark();
+            markedTasks[i] = tasks.get(indices[i]);
+        }
+        
+        return markedTasks;
     }
 
     /**
-     * Marks a task as not done.
+     * Marks tasks as undone and returns them.
      *
-     * @param index The task index.
-     * @throws GusException If the index is invalid.
+     * @param indices The indices of tasks to mark.
+     * @return Array of unmarked tasks.
+     * @throws GusException If any index is invalid.
      */
-    public void unmarkTask(int index) throws GusException {
-        getTask(index).unmark();
+    public Task[] unmarkTask(int... indices) throws GusException {
+        for (int index : indices) {
+            if (index < 0 || index >= tasks.size()) {
+                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
+            }
+        } 
+
+        Task[] unmarkedTasks = new Task[indices.length];
+        
+        for (int i = 0; i < indices.length; i++) {
+            tasks.get(indices[i]).unmark();
+            unmarkedTasks[i] = tasks.get(indices[i]);
+        }
+        
+        return unmarkedTasks;
     }
 
     /**
