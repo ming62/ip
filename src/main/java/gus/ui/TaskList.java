@@ -85,7 +85,7 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] deletedTasks = new Task[indices.length];
 
@@ -109,15 +109,15 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] markedTasks = new Task[indices.length];
-        
+
         for (int i = 0; i < indices.length; i++) {
             tasks.get(indices[i]).mark();
             markedTasks[i] = tasks.get(indices[i]);
         }
-        
+
         return markedTasks;
     }
 
@@ -133,15 +133,15 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] unmarkedTasks = new Task[indices.length];
-        
+
         for (int i = 0; i < indices.length; i++) {
             tasks.get(indices[i]).unmark();
             unmarkedTasks[i] = tasks.get(indices[i]);
         }
-        
+
         return unmarkedTasks;
     }
 

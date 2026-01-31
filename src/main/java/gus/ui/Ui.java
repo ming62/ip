@@ -1,6 +1,7 @@
 package gus.ui;
 
 import java.util.Scanner;
+
 import gus.task.Task;
 
 /**

@@ -1,5 +1,8 @@
 package gus.command;
 
+/**
+ * Represents the different types of commands the application can process.
+ */
 public enum Command {
     BYE,
     LIST,
@@ -15,7 +18,7 @@ public enum Command {
 
     /**
      * Parses a command from user input.
-     * 
+     *
      * @param input The user input string.
      * @return The command type.
      */
