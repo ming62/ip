@@ -122,39 +122,39 @@ public class Gus {
     }
 
     /**
-     * Marks a task as done.
+     * Marks multiple tasks as done.
      *
      * @param input The user input containing the task index.
      * @throws GusException If the task index is invalid.
      */
     private void handleMark(String input) throws GusException {
-        int index = Parser.parseTaskIndex(input, "mark");
-        tasks.markTask(index);
-        ui.showTaskMarked(tasks.getTask(index).toString());
+        int[] indices = Parser.parseTaskIndices(input, "unmark");
+        Task[] markedTasks = tasks.markTask(indices);
+        ui.showTasksUnmarked(markedTasks);
     }
 
     /**
-     * Marks a task as not done.
+     * Marks multiple tasks as not done.
      *
      * @param input The user input containing the task index.
      * @throws GusException If the task index is invalid.
      */
     private void handleUnmark(String input) throws GusException {
-        int index = Parser.parseTaskIndex(input, "unmark");
-        tasks.unmarkTask(index);
-        ui.showTaskUnmarked(tasks.getTask(index).toString());
+        int[] indices = Parser.parseTaskIndices(input, "unmark");
+        Task[] unmarkedTasks = tasks.unmarkTask(indices);
+        ui.showTasksUnmarked(unmarkedTasks);
     }
 
     /**
-     * Deletes a task.
+     * Deletes tasks.
      *
      * @param input The user input containing the task index.
      * @throws GusException If the task index is invalid.
      */
     private void handleDelete(String input) throws GusException {
-        int index = Parser.parseTaskIndex(input, "delete");
-        Task t = tasks.deleteTask(index);
-        ui.showTaskDeleted(t.toString(), tasks.size());
+        int[] indices = Parser.parseTaskIndices(input, "delete");
+        Task[] deletedTasks = tasks.deleteTask(indices);
+        ui.showTasksDeleted(tasks.size(), deletedTasks);
     }
 
     /**

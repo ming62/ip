@@ -47,6 +47,41 @@ public class Parser {
     }
 
     /**
+     * Parses multiple task indices from user input
+     *
+     * @param input   The user input string.
+     * @param command The command type.
+     * @return The task index.
+     * @throws GusException If the task index is missing or invalid.
+     */
+    public static int[] parseTaskIndices(String input, String command) throws GusException {
+        String[] parts = input.trim().split("\\s+");
+
+        if (parts.length < 2) {
+            throw new GusException("Please specify which task number.");
+        }
+
+        int[] indices = new int[parts.length - 1];
+
+        for (int i = 1; i < parts.length; i++) {
+            try {
+                int taskNumber = Integer.parseInt(parts[i]);
+                indices[i - 1] = taskNumber - 1; 
+            } catch (NumberFormatException e) {
+                throw new GusException("Invalid task number: " + parts[i]);
+            }
+        }
+    
+        indices = java.util.Arrays.stream(indices)
+            .boxed()
+            .sorted(java.util.Collections.reverseOrder())
+            .mapToInt(Integer::intValue)
+            .toArray();
+            
+        return indices;
+    }
+
+        /**
      * Parses the task index from user input.
      *
      * @param input   The user input string.

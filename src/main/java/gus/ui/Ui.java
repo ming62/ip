@@ -1,6 +1,7 @@
 package gus.ui;
 
 import java.util.Scanner;
+import gus.task.Task;
 
 /**
  * Handles all user interface jobs for the Gus application.
@@ -66,10 +67,12 @@ public class Ui {
     /**
      * Displays a text message to the user with the Gus prefix.
      *
-     * @param input The message to display.
+     * @param lines The messages to display.
      */
-    public void showText(String input) {
-        System.out.println(GUS_PREFIX + input);
+    public void showText(String... lines) {
+        for (String line : lines) {
+            System.out.println(GUS_PREFIX + line);
+        }
     }
 
     /**
@@ -111,6 +114,23 @@ public class Ui {
     }
 
     /**
+     * isplays messsages when multiple tasks are deleted.
+     *
+     * @param tasks     The tasks that were deleted.
+     * @param taskCount The total number of tasks after deleting this task.
+     */
+    public void showTasksDeleted(int taskCount, Task... tasks) {
+        System.out.println(GUS_PREFIX + "Understood. I have removed this task:");
+        System.out.println();
+        System.out.println();
+        for (Task task : tasks) {
+            System.out.printf("          %s \n", task.toString());
+        }
+        System.out.println();
+        System.out.printf(GUS_PREFIX + "You now have %d task(s) remaining.\n", taskCount);
+    }
+
+    /**
      * Displays a message when a task is marked as done.
      *
      * @param task The string of the marked task.
@@ -123,6 +143,20 @@ public class Ui {
     }
 
     /**
+     * Displays messsages when multiple tasks are marked as done.
+     *
+     * @param tasks The tasks that were marked.
+     */
+    public void showTasksMarked(Task... tasks) {
+        System.out.printf(GUS_PREFIX + "Excellent. I have marked this task as complete:\n");
+        System.out.println();
+        for (Task task : tasks) {
+            System.out.printf("          %s \n", task.toString());
+        }
+        System.out.println();
+    }
+
+    /**
      * Displays a message when a task is unmarked.
      *
      * @param task The string of the unmarked task.
@@ -131,6 +165,20 @@ public class Ui {
         System.out.printf(GUS_PREFIX + "Very well. I have marked this task as incomplete:\n");
         System.out.println();
         System.out.printf("          %s \n", task);
+        System.out.println();
+    }
+
+    /**
+     * Displays messsages when multiple tasks are marked as done.
+     *
+     * @param tasks The tasks that were marked.
+     */
+    public void showTasksUnmarked(Task... tasks) {
+        System.out.printf(GUS_PREFIX + "Excellent. I have marked this task as incomplete:\n");
+        System.out.println();
+        for (Task task : tasks) {
+            System.out.printf("          %s \n", task.toString());
+        }
         System.out.println();
     }
 
