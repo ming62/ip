@@ -1,15 +1,15 @@
 package gus.task;
 
 /**
- * Represents a task with a title and completion status.
+ * Represents a generic task with a title and completion status.
  */
 public class Task {
     private String title;
     private boolean isDone;
 
     /**
-     * Creates a task with the given title.
-     * 
+     * Creates a task with the title.
+     *
      * @param t The task title.
      */
     public Task(String t) {
@@ -32,17 +32,17 @@ public class Task {
     }
 
     /**
-     * Gets the completion status of the task.
-     * 
+     * Checks if the task is done.
+     *
      * @return True if done, false otherwise.
      */
-    public boolean getIsDone() {
+    public boolean isDone() {
         return this.isDone;
     }
 
     /**
      * Gets the title of the task.
-     * 
+     *
      * @return The task title.
      */
     public String getTitle() {
@@ -51,7 +51,7 @@ public class Task {
 
     /**
      * Checks if the task occurs on a given date.
-     * 
+     *
      * @param d The date to check.
      * @return True if task occurs on that date, false otherwise.
      */
@@ -61,11 +61,11 @@ public class Task {
 
     /**
      * Returns the string representation of the task.
-     * 
+     *
      * @return The formatted task string.
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.isDone ? "X": " ", this.title);
+        return String.format("[%s] %s", this.isDone ? "X" : " ", this.title);
     }
 }

@@ -1,20 +1,21 @@
 package gus.task;
-import java.time.LocalDateTime;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a task with a deadline.
  */
 public class DeadlineTask extends Task {
-    private LocalDateTime deadline;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+    private LocalDateTime deadline;
 
     /**
      * Creates a deadline task.
-     * 
-     * @param t The task description.
+     *
+     * @param t The task title.
      * @param d The deadline.
      */
     public DeadlineTask(String t, String d) {
@@ -24,7 +25,7 @@ public class DeadlineTask extends Task {
 
     /**
      * Gets the deadline.
-     * 
+     *
      * @return The deadline.
      */
     public LocalDateTime getDeadline() {
@@ -33,17 +34,18 @@ public class DeadlineTask extends Task {
 
     /**
      * Gets the deadline as an input formatted string.
-     * 
+     * yyyy-MM-dd HHmm
+     *
      * @return The input formatted deadline.
      */
     public String getDeadlineInputString() {
         return this.deadline.format(INPUT_FORMAT);
     }
 
-    
     /**
-     * Gets the deadline as a formatted string.
-     * 
+     * Gets the deadline as a output formatted string.
+     * MMM dd yyyy HH:mm
+     *
      * @return The formatted deadline.
      */
     public String getDeadlineOutputString() {
@@ -52,18 +54,18 @@ public class DeadlineTask extends Task {
 
     /**
      * Checks if the deadline is on a given date.
-     * 
+     *
      * @param d The date to check.
      * @return True if deadline is on that date, false otherwise.
      */
-    @Override   
+    @Override
     public boolean occursOn(LocalDate d) {
         return this.deadline.toLocalDate().equals(d);
     }
 
     /**
      * Returns the string representation of the deadline task.
-     * 
+     *
      * @return The formatted deadline task string.
      */
     @Override

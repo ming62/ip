@@ -1,4 +1,5 @@
 package gus.ui;
+
 import java.util.Scanner;
 
 /**
@@ -21,18 +22,16 @@ public class Ui {
      * Displays the welcome message and ASCII logo when the application starts.
      */
     public void showWelcome() {
-        String logo  =  "         /$$$$$$  /$$   /$$  /$$$$$$        \n"
-                      + "       /$$__  $$| $$  | $$ /$$__  $$        \n"
-                      + "      | $$  \\__/| $$  | $$| $$  \\__/       \n"
-                      + "      | $$ /$$$$| $$  | $$|  $$$$$$        \n"
-                      + "      | $$|_  $$| $$  | $$ \\____  $$       \n"
-                      + "      | $$  \\ $$| $$  | $$ /$$  \\ $$       \n"
-                      + "      |  $$$$$$/|  $$$$$$/|  $$$$$$/       \n"
-                      + "      \\______/  \\______/  \\______/         \n";
-                                    
-                                    
-                                    
-        System.out.println("\nBuenos días. Welcome to Los Pollos Hermanos.");
+        String logo = "         /$$$$$$  /$$   /$$  /$$$$$$        \n"
+                + "       /$$__  $$| $$  | $$ /$$__  $$        \n"
+                + "      | $$  \\__/| $$  | $$| $$  \\__/       \n"
+                + "      | $$ /$$$$| $$  | $$|  $$$$$$        \n"
+                + "      | $$|_  $$| $$  | $$ \\____  $$       \n"
+                + "      | $$  \\ $$| $$  | $$ /$$  \\ $$       \n"
+                + "      |  $$$$$$/|  $$$$$$/|  $$$$$$/       \n"
+                + "      \\______/  \\______/  \\______/         \n";
+
+        System.out.println("\nHello, Welcome to Los Pollos Hermanos.");
         System.out.println("My name is Gustavo Fring, but you may call me");
         System.out.println(LINE);
         System.out.println("\n\n" + logo);
@@ -44,7 +43,7 @@ public class Ui {
      * Displays the goodbye message when the application exits.
      */
     public void showBye() {
-        System.out.println(GUS_PREFIX + "It has been a pleasure serving you. Adiós.");
+        System.out.println(GUS_PREFIX + "It has been a pleasure serving you.");
     }
 
     /**
@@ -73,7 +72,6 @@ public class Ui {
         System.out.println(GUS_PREFIX + input);
     }
 
-    
     /**
      * Displays the list of all tasks.
      *
@@ -87,7 +85,7 @@ public class Ui {
     /**
      * Displays a message when a task is added.
      *
-     * @param task The string of the added task.
+     * @param task      The string of the added task.
      * @param taskCount The total number of tasks after adding this task.
      */
     public void showTaskAdded(String task, int taskCount) {
@@ -101,7 +99,7 @@ public class Ui {
     /**
      * Displays a message when a task is deleted.
      *
-     * @param task The string of the deleted task.
+     * @param task      The string of the deleted task.
      * @param taskCount The total number of tasks after deleting this task.
      */
     public void showTaskDeleted(String task, int taskCount) {
@@ -139,11 +137,22 @@ public class Ui {
     /**
      * Displays tasks found on a specific date.
      *
-     * @param date The formatted date string.
+     * @param date       The formatted date string.
      * @param foundTasks The string of tasks on that date.
      */
-    public void showFoundTasks(String date, String foundTasks) {
+    public void showOnTasks(String date, String foundTasks) {
         System.out.printf(GUS_PREFIX + "I have found these tasks scheduled for %s:\n", date);
+        System.out.println();
+        System.out.println(foundTasks);
+    }
+
+    /**
+     * Displays tasks found by keyword.
+     *
+     * @param foundTasks The string of tasks matching the keyword.
+     */
+    public void showFoundTasks(String foundTasks) {
+        System.out.printf(GUS_PREFIX + "Here are the matching tasks in your list:\n");
         System.out.println();
         System.out.println(foundTasks);
     }

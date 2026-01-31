@@ -1,21 +1,21 @@
 package gus.ui;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import gus.exception.GusException;
-import gus.task.*;
-
-import java.time.LocalDate;
+import gus.task.Task;
 
 /**
- * Manages a list of tasks.
+ * Manages a list of tasks and provides operations to manipulate them.
  */
 public class TaskList {
 
     private ArrayList<Task> tasks;
 
     /**
-     * Creates a TaskList with the given list of tasks.
-     * 
+     * Creates a TaskList with the given ArrayList of tasks.
+     *
      * @param t The list of tasks.
      */
     public TaskList(ArrayList<Task> t) {
@@ -24,7 +24,7 @@ public class TaskList {
 
     /**
      * Gets the list of tasks.
-     * 
+     *
      * @return The list of tasks.
      */
     public ArrayList<Task> getTasks() {
@@ -33,7 +33,7 @@ public class TaskList {
 
     /**
      * Gets the number of tasks.
-     * 
+     *
      * @return The number of tasks.
      */
     public int size() {
@@ -42,7 +42,7 @@ public class TaskList {
 
     /**
      * Checks if the task list is empty.
-     * 
+     *
      * @return True if empty, false otherwise.
      */
     public boolean isEmpty() {
@@ -51,7 +51,7 @@ public class TaskList {
 
     /**
      * Adds a task to the list.
-     * 
+     *
      * @param t The task to add.
      */
     public void addTask(Task t) {
@@ -59,8 +59,8 @@ public class TaskList {
     }
 
     /**
-     * Gets a task at the given index.
-     * 
+     * Gets a task at that index.
+     *
      * @param index The task index.
      * @return The task at that index.
      * @throws GusException If the index is invalid.
@@ -73,8 +73,8 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task at the given index.
-     * 
+     * Deletes a task at that index.
+     *
      * @param index The task index.
      * @return The deleted task.
      * @throws GusException If the index is invalid.
@@ -88,7 +88,7 @@ public class TaskList {
 
     /**
      * Marks a task as done.
-     * 
+     *
      * @param index The task index.
      * @throws GusException If the index is invalid.
      */
@@ -98,7 +98,7 @@ public class TaskList {
 
     /**
      * Marks a task as not done.
-     * 
+     *
      * @param index The task index.
      * @throws GusException If the index is invalid.
      */
@@ -108,10 +108,10 @@ public class TaskList {
 
     /**
      * Gets the task list as a string.
-     * 
-     * @return The formatted task list.
+     *
+     * @return The formatted task list string.
      */
-    public String getListSring() {
+    public String getListString() {
         if (this.isEmpty()) {
             return "         You have no tasks at the moment.";
         }
@@ -125,16 +125,16 @@ public class TaskList {
     }
 
     /**
-     * Gets tasks that occur on a specific date.
-     * 
+     * Gets the tasks that occur on a specific date.
+     *
      * @param date The date to search for.
-     * @return The formatted list of tasks on that date.
+     * @return The formatted string of the list of tasks on that date.
      */
     public String getListByDate(LocalDate date) {
         int count = 0;
         StringBuilder sb = new StringBuilder();
 
-        for (Task t: tasks) {
+        for (Task t : tasks) {
             if (t.occursOn(date)) {
                 sb.append(String.format("         %d. %s \n", count + 1, t.toString()));
                 count++;
@@ -146,5 +146,28 @@ public class TaskList {
         }
         return sb.toString();
     }
-    
+
+    /**
+     * Gets the tasks that has a certain keyword
+     *
+     * @param k The keyword to search for.
+     * @return The formatted string of the list of tasks that has this keyword.
+     */
+    public String getListByKeyword(String k) {
+        int count = 0;
+        StringBuilder sb = new StringBuilder();
+
+        for (Task t : tasks) {
+            if (t.getTitle().contains(k)) {
+                sb.append(String.format("         %d. %s \n", count + 1, t.toString()));
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            return "         I found no matching tasks for: " + k + ".";
+        }
+        return sb.toString();
+    }
+
 }

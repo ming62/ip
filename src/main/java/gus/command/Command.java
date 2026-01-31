@@ -1,8 +1,5 @@
 package gus.command;
 
-/**
- * Represents the different types of commands.
- */
 public enum Command {
     BYE,
     LIST,
@@ -13,9 +10,8 @@ public enum Command {
     DEADLINE,
     EVENT,
     ON,
+    FIND,
     ELSE;
-
-
 
     /**
      * Parses a command from user input.
@@ -36,6 +32,6 @@ public enum Command {
         } catch (IllegalArgumentException e) {
             return ELSE;
         }
-        
+
     }
 }

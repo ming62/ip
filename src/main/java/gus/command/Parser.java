@@ -1,4 +1,5 @@
 package gus.command;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7,16 +8,16 @@ import java.time.format.DateTimeParseException;
 import gus.exception.GusException;
 
 /**
- * Parses user input and returns the corresponding command.
- * 
- * @param input The user input string.
- * @return The command type.
- */
-/**
- * Parses user input into commands and extracts information.
+ * Parses user input into commands and extracts command parameters.
  */
 public class Parser {
-    
+
+    /**
+     * Parses the command from user input.
+     *
+     * @param input The user input string.
+     * @return The parsed command.
+     */
     public static Command parseCommand(String input) {
         String lowerCaseInput = input.toLowerCase().trim();
 
@@ -38,6 +39,8 @@ public class Parser {
             return Command.EVENT;
         } else if (lowerCaseInput.equals("on") || lowerCaseInput.startsWith("on ")) {
             return Command.ON;
+        } else if (lowerCaseInput.equals("find") || lowerCaseInput.startsWith("find ")) {
+            return Command.FIND;
         } else {
             return Command.ELSE;
         }
@@ -45,8 +48,8 @@ public class Parser {
 
     /**
      * Parses the task index from user input.
-     * 
-     * @param input The user input string.
+     *
+     * @param input   The user input string.
      * @param command The command type.
      * @return The task index.
      * @throws GusException If the task index is missing or invalid.
@@ -55,7 +58,7 @@ public class Parser {
         if (input.length() <= command.length() + 1) {
             throw new GusException("Please specify which task number.");
         }
-        
+
         String details = input.substring(command.length()).trim();
 
         if (details.isEmpty()) {
@@ -71,8 +74,8 @@ public class Parser {
 
     /**
      * Parses the description from user input.
-     * 
-     * @param input The user input string.
+     *
+     * @param input   The user input string.
      * @param command The command type.
      * @return The task description.
      * @throws GusException If the description is missing.
@@ -83,33 +86,37 @@ public class Parser {
             if (command == "on") {
                 throw new GusException("Please provide the date in the format yyyy-MM-dd.");
             }
+
+            if (command == "find") {
+                throw new GusException("Please provide the keyword to find for.");
+            }
+
             throw new GusException("I'm afraid I need a description for this task.");
         }
-        
+
         String details = input.substring(command.length()).trim();
 
         if (details.isEmpty()) {
             throw new GusException("I'm afraid I need a description for this task.");
         }
-        
+
         return details;
     }
 
     /**
      * Parses deadline information from user input.
-     * 
+     *
      * @param input The user input string.
-     * @return Array containing task description and deadline.
+     * @return Array containing task title and deadline.
      * @throws GusException If the format is invalid.
      */
     public static String[] parseDeadline(String input) throws GusException {
         String details = parseDesc(input, "deadline");
 
-
         if (!details.contains(" /by ")) {
             throw new GusException("Please specify the deadline using /by.");
         }
-        
+
         String[] parts = details.split(" /by ", 2);
 
         try {
@@ -118,16 +125,15 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd HHmm.");
         }
-        
+
         return parts;
     }
 
-    
     /**
      * Parses event information from user input.
-     * 
+     *
      * @param input The user input string.
-     * @return Array containing task description, start time, and end time.
+     * @return Array containing task title, from time, and to time.
      * @throws GusException If the format is invalid.
      */
     public static String[] parseEvent(String input) throws GusException {
@@ -140,8 +146,8 @@ public class Parser {
         String[] firstSplit = details.split(" /from ", 2);
         String[] secondSplit = firstSplit[1].split(" /to ", 2);
 
-        String[] parts = new String[]{firstSplit[0], secondSplit[0], secondSplit[1]};
-        
+        String[] parts = new String[] { firstSplit[0], secondSplit[0], secondSplit[1] };
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
             LocalDateTime.parse(parts[1], formatter);
@@ -149,14 +155,13 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd HHmm.");
         }
-        
+
         return parts;
     }
 
-    
     /**
      * Parses a date from user input.
-     * 
+     *
      * @param input The user input string.
      * @return The parsed date.
      * @throws GusException If the date format is invalid.

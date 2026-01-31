@@ -7,14 +7,16 @@ import gus.command.Command;
 import gus.command.Parser;
 import gus.exception.GusException;
 import gus.storage.Storage;
-import gus.task.Task;
-import gus.task.TodoTask;
 import gus.task.DeadlineTask;
 import gus.task.EventTask;
-
+import gus.task.Task;
+import gus.task.TodoTask;
 import gus.ui.TaskList;
 import gus.ui.Ui;
 
+/**
+ * Main class for the Gus task management application.
+ */
 public class Gus {
     private Storage storage;
     private TaskList tasks;
@@ -66,7 +68,7 @@ public class Gus {
         ui.close();
     }
 
-    
+
     /**
      * Executes the given command with the provided input.
      *
@@ -76,39 +78,39 @@ public class Gus {
      */
     private void executeCommand(Command command, String input) throws GusException {
         switch (command) {
-            case LIST:
-                handleList();
-                break;
-            case MARK:
-                handleMark(input);
-                break;
-            case UNMARK:
-                handleUnmark(input);
-                break;
-            case DELETE:
-                handleDelete(input);
-                break;
-            case TODO:
-                handleTodo(input);
-                break;
-            case DEADLINE:
-                handleDeadline(input);
-                break;
-            case EVENT:
-                handleEvent(input);
-                break;
-            case ON:
-                handleOn(input);
-                break;
-            case FIND:
-                handleFind(input);
-                break;
-            case ELSE:
-                throw new GusException("I'm afraid I don't understand that request. Please clarify.");
-            case BYE:
-                break;
-            default:
-                break;
+        case LIST:
+            handleList();
+            break;
+        case MARK:
+            handleMark(input);
+            break;
+        case UNMARK:
+            handleUnmark(input);
+            break;
+        case DELETE:
+            handleDelete(input);
+            break;
+        case TODO:
+            handleTodo(input);
+            break;
+        case DEADLINE:
+            handleDeadline(input);
+            break;
+        case EVENT:
+            handleEvent(input);
+            break;
+        case ON:
+            handleOn(input);
+            break;
+        case FIND:
+            handleFind(input);
+            break;
+        case ELSE:
+            throw new GusException("I'm afraid I don't understand that request. Please clarify.");
+        case BYE:
+            break;
+        default:
+            break;
         }
     }
 

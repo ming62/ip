@@ -7,19 +7,19 @@ import java.time.format.DateTimeFormatter;
 import gus.exception.GusException;
 
 /**
- * Represents an event task with a start and end time.
+ * Represents a task that occurs during a time period.
  */
 public class EventTask extends Task {
-    private LocalDateTime to;
-    private LocalDateTime from;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+    private LocalDateTime to;
+    private LocalDateTime from;
 
     /**
      * Creates an event task.
-     * 
-     * @param t The task description.
-     * @param f The start time.
+     *
+     * @param t  The task title.
+     * @param f  The start time.
      * @param to The end time.
      * @throws GusException If end time is before or equal to start time.
      */
@@ -35,7 +35,7 @@ public class EventTask extends Task {
 
     /**
      * Gets the start time.
-     * 
+     *
      * @return The start time.
      */
     public LocalDateTime getFrom() {
@@ -44,7 +44,7 @@ public class EventTask extends Task {
 
     /**
      * Gets the end time.
-     * 
+     *
      * @return The end time.
      */
     public LocalDateTime getTo() {
@@ -52,8 +52,9 @@ public class EventTask extends Task {
     }
 
     /**
-     * Gets the end time as a formatted string.
-     * 
+     * Gets the end time as a output formatted string.
+     * MMM dd yyyy HH:mm
+     *
      * @return The formatted end time.
      */
     public String getToOutputString() {
@@ -61,8 +62,9 @@ public class EventTask extends Task {
     }
 
     /**
-     * Gets the start time as a formatted string.
-     * 
+     * Gets the start time as a output formatted string.
+     * MMM dd yyyy HH:mm
+     *
      * @return The formatted start time.
      */
     public String getFromOutputString() {
@@ -71,7 +73,8 @@ public class EventTask extends Task {
 
     /**
      * Gets the end time as an input formatted string.
-     * 
+     * yyyy-MM-dd HHmm
+     *
      * @return The input formatted end time.
      */
     public String getToInputString() {
@@ -80,32 +83,34 @@ public class EventTask extends Task {
 
     /**
      * Gets the start time as an input formatted string.
-     * 
+     * yyyy-MM-dd HHmm
+     *
      * @return The input formatted start time.
      */
     public String getFromInputString() {
         return this.from.format(INPUT_FORMAT);
     }
+
     /**
      * Checks if the event occurs on a given date.
-     * 
+     *
      * @param d The date to check.
      * @return True if event occurs on that date, false otherwise.
      */
-    @Override   
+    @Override
     public boolean occursOn(LocalDate d) {
         return !d.isBefore(this.from.toLocalDate()) && !d.isAfter(this.to.toLocalDate());
     }
 
     /**
      * Returns the string representation of the event task.
-     * 
+     *
      * @return The formatted event task string.
      */
     @Override
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(), this.from.format(OUTPUT_FORMAT), this.to.format(OUTPUT_FORMAT));
+        return String.format("[E]%s (from: %s to: %s)", super.toString(), this.from.format(OUTPUT_FORMAT),
+                this.to.format(OUTPUT_FORMAT));
     }
-
 
 }
