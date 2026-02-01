@@ -50,7 +50,7 @@ test {
 }
 
 application {
-    mainClass.set("gus.Gus")
+    mainClass.set("gus.Launcher")
 }
 
 shadowJar {
