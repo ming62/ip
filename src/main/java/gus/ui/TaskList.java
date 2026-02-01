@@ -73,11 +73,11 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task at that index.
+     * Deletes tasks at the given indices.
      *
-     * @param indices The indices of tasks to unmark.
+     * @param indices The indices of tasks to delete.
      * @return Array of deleted tasks.
-     * @throws GusException If the index is invalid.
+     * @throws GusException If any index is invalid.
      */
     public Task[] deleteTask(int... indices) throws GusException {
 
@@ -85,7 +85,7 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] deletedTasks = new Task[indices.length];
 
@@ -109,22 +109,22 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] markedTasks = new Task[indices.length];
-        
+
         for (int i = 0; i < indices.length; i++) {
             tasks.get(indices[i]).mark();
             markedTasks[i] = tasks.get(indices[i]);
         }
-        
+
         return markedTasks;
     }
 
     /**
      * Marks tasks as undone and returns them.
      *
-     * @param indices The indices of tasks to mark.
+     * @param indices The indices of tasks to unmark.
      * @return Array of unmarked tasks.
      * @throws GusException If any index is invalid.
      */
@@ -133,15 +133,15 @@ public class TaskList {
             if (index < 0 || index >= tasks.size()) {
                 throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
             }
-        } 
+        }
 
         Task[] unmarkedTasks = new Task[indices.length];
-        
+
         for (int i = 0; i < indices.length; i++) {
             tasks.get(indices[i]).unmark();
             unmarkedTasks[i] = tasks.get(indices[i]);
         }
-        
+
         return unmarkedTasks;
     }
 
@@ -152,12 +152,12 @@ public class TaskList {
      */
     public String getListString() {
         if (this.isEmpty()) {
-            return "         You have no tasks at the moment.";
+            return "You have no tasks at the moment.";
         }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
-            sb.append(String.format("         %d. %s \n", i + 1, tasks.get(i).toString()));
+            sb.append(String.format("%d. %s \n", i + 1, tasks.get(i).toString()));
         }
 
         return sb.toString();
@@ -167,46 +167,37 @@ public class TaskList {
      * Gets the tasks that occur on a specific date.
      *
      * @param date The date to search for.
-     * @return The formatted string of the list of tasks on that date.
+     * @return Array of tasks that occur on the specified date.
      */
-    public String getListByDate(LocalDate date) {
-        int count = 0;
-        StringBuilder sb = new StringBuilder();
+    public Task[] getListByDate(LocalDate date) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
 
         for (Task t : tasks) {
             if (t.occursOn(date)) {
-                sb.append(String.format("         %d. %s \n", count + 1, t.toString()));
-                count++;
+                matchingTasks.add(t);
             }
         }
 
-        if (count == 0) {
-            return "         I found no tasks scheduled for this date.";
-        }
-        return sb.toString();
+        return matchingTasks.toArray(new Task[0]);
     }
 
     /**
-     * Gets the tasks that has a certain keyword
+     * Gets the tasks that have a certain keyword.
      *
      * @param k The keyword to search for.
-     * @return The formatted string of the list of tasks that has this keyword.
+     * @return Array of tasks that contain the keyword.
      */
-    public String getListByKeyword(String k) {
-        int count = 0;
-        StringBuilder sb = new StringBuilder();
+    public Task[] getListByKeyword(String k) {
+
+        ArrayList<Task> matchingTasks = new ArrayList<>();
 
         for (Task t : tasks) {
             if (t.getTitle().contains(k)) {
-                sb.append(String.format("         %d. %s \n", count + 1, t.toString()));
-                count++;
+                matchingTasks.add(t);
             }
         }
 
-        if (count == 0) {
-            return "         I found no matching tasks for: " + k + ".";
-        }
-        return sb.toString();
+        return matchingTasks.toArray(new Task[0]);
     }
 
 }

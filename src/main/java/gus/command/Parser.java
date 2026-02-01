@@ -66,22 +66,22 @@ public class Parser {
         for (int i = 1; i < parts.length; i++) {
             try {
                 int taskNumber = Integer.parseInt(parts[i]);
-                indices[i - 1] = taskNumber - 1; 
+                indices[i - 1] = taskNumber - 1;
             } catch (NumberFormatException e) {
                 throw new GusException("Invalid task number: " + parts[i]);
             }
         }
-    
+
         indices = java.util.Arrays.stream(indices)
             .boxed()
             .sorted(java.util.Collections.reverseOrder())
             .mapToInt(Integer::intValue)
             .toArray();
-            
+
         return indices;
     }
 
-        /**
+    /**
      * Parses the task index from user input.
      *
      * @param input   The user input string.
