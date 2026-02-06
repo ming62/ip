@@ -50,6 +50,19 @@ public class TaskList {
     }
 
     /**
+     * Checks if the indices are valid
+     *
+     * @throws GusException if any of the indices is invalid
+     */
+    private void checkIndices(int... indices) throws GusException {
+        for (int index : indices) {
+            if (index < 0 || index >= tasks.size()) {
+                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
+            }
+        }
+    }
+
+    /**
      * Adds a task to the list.
      *
      * @param t The task to add.
@@ -58,19 +71,6 @@ public class TaskList {
         tasks.add(t);
     }
 
-    /**
-     * Gets a task at that index.
-     *
-     * @param index The task index.
-     * @return The task at that index.
-     * @throws GusException If the index is invalid.
-     */
-    public Task getTask(int index) throws GusException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new GusException("I'm sorry, but that task number does not exist.");
-        }
-        return tasks.get(index);
-    }
 
     /**
      * Deletes tasks at the given indices.
@@ -81,11 +81,7 @@ public class TaskList {
      */
     public Task[] deleteTask(int... indices) throws GusException {
 
-        for (int index : indices) {
-            if (index < 0 || index >= tasks.size()) {
-                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
-            }
-        }
+        checkIndices(indices);
 
         Task[] deletedTasks = new Task[indices.length];
 
@@ -107,11 +103,7 @@ public class TaskList {
      */
     public Task[] markTask(int... indices) throws GusException {
 
-        for (int index : indices) {
-            if (index < 0 || index >= tasks.size()) {
-                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
-            }
-        }
+        checkIndices(indices);
 
         Task[] markedTasks = new Task[indices.length];
 
@@ -132,11 +124,8 @@ public class TaskList {
      * @throws GusException If any index is invalid.
      */
     public Task[] unmarkTask(int... indices) throws GusException {
-        for (int index : indices) {
-            if (index < 0 || index >= tasks.size()) {
-                throw new GusException("I'm sorry, but that task number does not exist: " + (index + 1));
-            }
-        }
+        
+        checkIndices(indices);
 
         Task[] unmarkedTasks = new Task[indices.length];
 

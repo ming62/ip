@@ -76,14 +76,17 @@ public class Ui {
         }
     }
 
-    /**
-     * Displays the list of all tasks.
-     *
-     * @param list The string of the whole task list.
-     */
-    public void showTaskList(String list) {
-        System.out.println(GUS_PREFIX + "Here is your task list, as requested:\n");
-        System.out.println(list);
+
+    private String formatTaskList(String header, Task... tasks) {
+        StringBuilder result = new StringBuilder();
+        result.append(header).append("\n\n");
+
+        for (Task task : tasks) {
+            result.append(String.format("%s \n", task.toString()));
+        }
+
+        result.append("\n");
+        return result.toString();
     }
 
     /**
@@ -104,20 +107,6 @@ public class Ui {
     }
 
     /**
-     * Displays a message when a task is deleted.
-     *
-     * @param task      The string of the deleted task.
-     * @param taskCount The total number of tasks after deleting this task.
-     */
-    public void showTaskDeleted(String task, int taskCount) {
-        System.out.println(GUS_PREFIX + "Understood. I have removed this task:");
-        System.out.println();
-        System.out.printf("          %s \n", task);
-        System.out.println();
-        System.out.printf(GUS_PREFIX + "You now have %d task(s) remaining.\n", taskCount);
-    }
-
-    /**
      * Returns a message when multiple tasks are deleted.
      *
      * @param taskCount The total number of tasks after deleting these tasks.
@@ -125,15 +114,8 @@ public class Ui {
      * @return A formatted string with the deleted tasks and remaining count.
      */
     public String showTasksDeleted(int taskCount, Task... tasks) {
-        StringBuilder result = new StringBuilder();
-        result.append("Understood. I have removed this task:\n");
-        result.append("\n");
-        for (Task task : tasks) {
-            result.append(String.format("%s \n", task.toString()));
-        }
-        result.append("\n");
-        result.append(String.format("You now have %d task(s) remaining.\n", taskCount));
-        return result.toString();
+
+        return formatTaskList("Understood. I have removed this task:", tasks);
     }
 
     /**
@@ -143,14 +125,9 @@ public class Ui {
      * @return A formatted string with the marked tasks.
      */
     public String showTasksMarked(Task... tasks) {
-        StringBuilder result = new StringBuilder();
-        result.append("Excellent. I have marked the task(s) as complete:\n");
-        result.append("\n");
-        for (Task task : tasks) {
-            result.append(String.format("%s \n", task.toString()));
-        }
-        result.append("\n");
-        return result.toString();
+
+        return formatTaskList("Excellent. I have marked the task(s) as complete:", tasks);
+
     }
 
     /**
@@ -160,14 +137,9 @@ public class Ui {
      * @return A formatted string with the unmarked tasks.
      */
     public String showTasksUnmarked(Task... tasks) {
-        StringBuilder result = new StringBuilder();
-        result.append("Excellent. I have marked the task(s) as incomplete:\n");
-        result.append("\n");
-        for (Task task : tasks) {
-            result.append(String.format("%s \n", task.toString()));
-        }
-        result.append("\n");
-        return result.toString();
+
+        return formatTaskList("Excellent. I have marked the task(s) as incomplete:", tasks);
+
     }
 
     /**
@@ -178,19 +150,13 @@ public class Ui {
      * @return A formatted string with the tasks on the specified date.
      */
     public String showOnTasks(String date, Task... tasks) {
-        StringBuilder result = new StringBuilder();
 
         if (tasks.length == 0) {
-            result.append("I found no tasks scheduled for this date.\n");
-        } else {
-            result.append(String.format("I have found these tasks scheduled for %s:\n", date));
-            result.append("\n");
-            for (Task task : tasks) {
-                result.append(String.format("%s \n", task.toString()));
-            }
-            result.append("\n");
+            return "I found no tasks scheduled for this date.\n";
         }
-        return result.toString();
+
+        String header = String.format("I have found these tasks scheduled for %s:", date);
+        return formatTaskList(header, tasks);
     }
 
     /**
@@ -200,17 +166,9 @@ public class Ui {
      * @return A formatted string with the matching tasks.
      */
     public String showFoundTasks(Task... tasks) {
-        StringBuilder result = new StringBuilder();
         if (tasks.length == 0) {
-            result.append("I found no tasks with matching keyword.\n");
-        } else {
-            result.append("Here are the matching tasks in your list:\n");
-            result.append("\n");
-            for (Task task : tasks) {
-                result.append(String.format("%s \n", task.toString()));
-            }
-            result.append("\n");
+            return "I found no tasks with matching keyword.\n";
         }
-        return result.toString();
+        return formatTaskList("Here are the matching tasks in your list:", tasks);
     }
 }
