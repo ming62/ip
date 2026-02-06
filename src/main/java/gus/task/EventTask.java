@@ -25,6 +25,13 @@ public class EventTask extends Task {
      */
     public EventTask(String t, String f, String to) throws GusException {
         super(t);
+
+        assert f != null : "From DateTime should not be null";
+        assert !f.trim().isEmpty() : "From DateTime should not be empty";
+
+        assert to != null : "To DateTime should not be null";
+        assert !to.trim().isEmpty() : "To DateTime should not be empty";
+
         this.to = LocalDateTime.parse(to, INPUT_FORMAT);
         this.from = LocalDateTime.parse(f, INPUT_FORMAT);
 

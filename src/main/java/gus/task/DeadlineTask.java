@@ -20,6 +20,10 @@ public class DeadlineTask extends Task {
      */
     public DeadlineTask(String t, String d) {
         super(t);
+
+        assert d != null : "Deadline should not be null";
+        assert !d.trim().isEmpty() : "Deadline should not be empty";
+
         this.deadline = LocalDateTime.parse(d, INPUT_FORMAT);
     }
 
