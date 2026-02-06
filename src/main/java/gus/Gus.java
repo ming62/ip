@@ -137,41 +137,8 @@ public class Gus {
      * @throws GusException If the command execution fails.
      */
     private void executeCommand(Command command, String input) throws GusException {
-        switch (command) {
-        case LIST:
-            handleList();
-            break;
-        case MARK:
-            handleMark(input);
-            break;
-        case UNMARK:
-            handleUnmark(input);
-            break;
-        case DELETE:
-            handleDelete(input);
-            break;
-        case TODO:
-            handleTodo(input);
-            break;
-        case DEADLINE:
-            handleDeadline(input);
-            break;
-        case EVENT:
-            handleEvent(input);
-            break;
-        case ON:
-            handleOn(input);
-            break;
-        case FIND:
-            handleFind(input);
-            break;
-        case ELSE:
-            throw new GusException("I'm afraid I don't understand that request. Please clarify.");
-        case BYE:
-            break;
-        default:
-            break;
-        }
+        String response = executeCommandGui(command, input);
+        ui.showText(response);
     }
 
     /**
@@ -191,7 +158,7 @@ public class Gus {
      * @throws GusException If any task index is invalid.
      */
     private String handleMark(String input) throws GusException {
-        int[] indices = Parser.parseTaskIndices(input, "unmark");
+        int[] indices = Parser.parseTaskIndices(input, "mark");
         Task[] markedTasks = tasks.markTask(indices);
         return ui.showTasksMarked(markedTasks);
     }

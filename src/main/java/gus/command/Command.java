@@ -16,25 +16,4 @@ public enum Command {
     FIND,
     ELSE;
 
-    /**
-     * Parses a command from user input.
-     *
-     * @param input The user input string.
-     * @return The command type.
-     */
-    public static Command parseCommand(String input) {
-
-        if (input.trim().isEmpty()) {
-            return ELSE;
-        }
-
-        String command = input.trim().split(" ")[0].toUpperCase();
-
-        try {
-            return Command.valueOf(command);
-        } catch (IllegalArgumentException e) {
-            return ELSE;
-        }
-
-    }
 }

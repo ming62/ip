@@ -32,6 +32,22 @@ public class Storage {
     }
 
     /**
+     * Creates a directory if directory does not exists
+     *
+     * @throws GusExcpetion If there is an error creating the directory.
+     */
+    public void createDirectoryIfNone() throws GusException {
+        Path directory = filePath.getParent();
+        if (directory != null && !Files.exists(directory)) {
+            try {
+                Files.createDirectories(directory);
+            } catch (IOException e) {
+                throw new GusException("I apologize, but there was an error creating the directory.");
+            }
+        }
+    }
+
+    /**
      * Loads tasks from the file.
      *
      * @return The list of tasks.
@@ -41,14 +57,7 @@ public class Storage {
 
         ArrayList<Task> tasks = new ArrayList<>();
 
-        Path directory = filePath.getParent();
-        if (directory != null && !Files.exists(directory)) {
-            try {
-                Files.createDirectories(directory);
-            } catch (IOException e) {
-                throw new GusException("I apologize, but there was an error creating the directory.");
-            }
-        }
+        createDirectoryIfNone();
 
         if (!Files.exists(filePath)) {
             return tasks;
@@ -63,7 +72,7 @@ public class Storage {
                 if (task != null) {
                     tasks.add(task);
                 }
-                ;
+                
             }
             scanner.close();
 
@@ -105,7 +114,7 @@ public class Storage {
                 task = new EventTask(title, from, to);
                 break;
             default:
-                break;
+                throw new GusException("Unknown task type: " + type);
             }
 
             if (task != null) {
@@ -128,14 +137,7 @@ public class Storage {
      */
     public void save(ArrayList<Task> tasks) throws GusException {
 
-        Path directory = filePath.getParent();
-        if (directory != null && !Files.exists(directory)) {
-            try {
-                Files.createDirectories(directory);
-            } catch (IOException e) {
-                throw new GusException("I apologize, but there was an error creating the directory.");
-            }
-        }
+        createDirectoryIfNone();
 
         try {
             FileWriter writer = new FileWriter(filePath.toFile());

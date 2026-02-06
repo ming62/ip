@@ -12,6 +12,8 @@ import gus.exception.GusException;
  */
 public class Parser {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     /**
      * Parses the command from user input.
      *
@@ -118,11 +120,11 @@ public class Parser {
     public static String parseDesc(String input, String command) throws GusException {
         if (input.length() <= command.length()) {
 
-            if (command == "on") {
+            if (command.equals("on")) {
                 throw new GusException("Please provide the date in the format yyyy-MM-dd.");
             }
 
-            if (command == "find") {
+            if (command.equals("find")) {
                 throw new GusException("Please provide the keyword to find for.");
             }
 
@@ -155,8 +157,7 @@ public class Parser {
         String[] parts = details.split(" /by ", 2);
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-            LocalDateTime.parse(parts[1], formatter);
+            LocalDateTime.parse(parts[1], DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd HHmm.");
         }
@@ -184,9 +185,8 @@ public class Parser {
         String[] parts = new String[] { firstSplit[0], secondSplit[0], secondSplit[1] };
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-            LocalDateTime.parse(parts[1], formatter);
-            LocalDateTime.parse(parts[2], formatter);
+            LocalDateTime.parse(parts[1], DATE_TIME_FORMATTER);
+            LocalDateTime.parse(parts[2], DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd HHmm.");
         }
@@ -205,8 +205,7 @@ public class Parser {
         String dateString = parseDesc(input, "on");
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return LocalDate.parse(dateString, formatter);
+            return LocalDate.parse(dateString, DATE_FORMATTER);
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd.");
         }
