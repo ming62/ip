@@ -90,6 +90,8 @@ public class TaskList {
         Task[] deletedTasks = new Task[indices.length];
 
         for (int i = 0; i < indices.length; i++) {
+
+            assert indices[i] < tasks.size() && indices[i] >= 0 : "Index should not be out of bound";
             deletedTasks[i] = tasks.remove(indices[i]);
         }
 
@@ -114,6 +116,7 @@ public class TaskList {
         Task[] markedTasks = new Task[indices.length];
 
         for (int i = 0; i < indices.length; i++) {
+            assert indices[i] < tasks.size() && indices[i] >= 0 : "Index should not be out of bound";
             tasks.get(indices[i]).mark();
             markedTasks[i] = tasks.get(indices[i]);
         }
@@ -138,6 +141,7 @@ public class TaskList {
         Task[] unmarkedTasks = new Task[indices.length];
 
         for (int i = 0; i < indices.length; i++) {
+            assert indices[i] < tasks.size() && indices[i] >= 0 : "Index should not be out of bound";
             tasks.get(indices[i]).unmark();
             unmarkedTasks[i] = tasks.get(indices[i]);
         }
