@@ -170,15 +170,8 @@ public class TaskList {
      * @return Array of tasks that occur on the specified date.
      */
     public Task[] getListByDate(LocalDate date) {
-        ArrayList<Task> matchingTasks = new ArrayList<>();
 
-        for (Task t : tasks) {
-            if (t.occursOn(date)) {
-                matchingTasks.add(t);
-            }
-        }
-
-        return matchingTasks.toArray(new Task[0]);
+        return tasks.stream().filter(task -> task.occursOn(date)).toArray(Task[]::new);
     }
 
     /**
@@ -189,15 +182,7 @@ public class TaskList {
      */
     public Task[] getListByKeyword(String k) {
 
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-
-        for (Task t : tasks) {
-            if (t.getTitle().contains(k)) {
-                matchingTasks.add(t);
-            }
-        }
-
-        return matchingTasks.toArray(new Task[0]);
+        return tasks.stream().filter(task -> task.getTitle().contains(k)).toArray(Task[]::new);
     }
 
 }

@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import gus.exception.GusException;
 import gus.task.DeadlineTask;
@@ -139,9 +140,9 @@ public class Storage {
 
         try {
             FileWriter writer = new FileWriter(filePath.toFile());
-            for (Task task : tasks) {
-                writer.write(formatLine(task) + "\n");
-            }
+            String content = tasks.stream().map(task -> formatLine(task)).collect(Collectors.joining("\n"));
+
+            writer.write(content + "\n");
             writer.close();
         } catch (IOException e) {
             throw new GusException("I apologize, but there was an error saving your tasks.");
