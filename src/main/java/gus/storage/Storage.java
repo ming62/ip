@@ -28,6 +28,10 @@ public class Storage {
      * @param s The file path as a string.
      */
     public Storage(String s) {
+
+        assert s != null : "File path should not be null";
+        assert !s.trim().isEmpty() : "File path should not be empty";
+
         this.filePath = Paths.get(s);
     }
 
