@@ -116,7 +116,7 @@ public class EventTask extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(), this.from.format(OUTPUT_FORMAT),
+        return String.format("[E] %s (from: %s to: %s)", super.toString(), this.from.format(OUTPUT_FORMAT),
                 this.to.format(OUTPUT_FORMAT));
     }
 

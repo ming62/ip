@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import gus.exception.GusException;
+import gus.task.Priority;
 import gus.task.Task;
 
 /**
@@ -71,7 +72,6 @@ public class TaskList {
         tasks.add(t);
     }
 
-
     /**
      * Deletes tasks at the given indices.
      *
@@ -124,7 +124,7 @@ public class TaskList {
      * @throws GusException If any index is invalid.
      */
     public Task[] unmarkTask(int... indices) throws GusException {
-        
+
         checkIndices(indices);
 
         Task[] unmarkedTasks = new Task[indices.length];
@@ -139,7 +139,7 @@ public class TaskList {
     }
 
     /**
-     * Gets the task list as a string.
+     * Gets the task list as a string
      *
      * @return The formatted task list string.
      */
@@ -151,6 +151,28 @@ public class TaskList {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
             sb.append(String.format("%d. %s \n", i + 1, tasks.get(i).toString()));
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Gets the task list as a string which is sorted by priority
+     *
+     * @return The formatted task list string.
+     */
+    public String getListStringPrioritySorted() {
+        if (this.isEmpty()) {
+            return "You have no tasks at the moment.";
+        }
+
+        ArrayList<Task> sortedTasks = new ArrayList<>(tasks);
+        sortedTasks.sort((t1, t2) -> Integer.compare(t1.getPriority().getLevel(), t2.getPriority().getLevel()));
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            int originalIndex = tasks.indexOf(sortedTasks.get(i));
+            sb.append(String.format("%d. %s \n", originalIndex + 1, tasks.get(i).toString()));
         }
 
         return sb.toString();
@@ -178,4 +200,16 @@ public class TaskList {
         return tasks.stream().filter(task -> task.getTitle().contains(k)).toArray(Task[]::new);
     }
 
+    public Task[] setPriority(Priority priority, int... indices) throws GusException {
+
+        checkIndices(indices);
+
+        Task[] updatedTasks = new Task[indices.length];
+        for (int i = 0; i < indices.length; i++) {
+            tasks.get(indices[i]).setPriority(priority);
+            updatedTasks[i] = tasks.get(indices[i]);
+        }
+
+        return updatedTasks;
+    }
 }
