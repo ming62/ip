@@ -14,6 +14,7 @@ public enum Command {
     EVENT,
     ON,
     FIND,
+    PRI,
     ELSE;
 
 }

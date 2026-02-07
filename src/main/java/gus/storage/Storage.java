@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import gus.exception.GusException;
 import gus.task.DeadlineTask;
 import gus.task.EventTask;
+import gus.task.Priority;
 import gus.task.Task;
 import gus.task.TodoTask;
 
@@ -77,7 +78,7 @@ public class Storage {
                 if (task != null) {
                     tasks.add(task);
                 }
-                
+
             }
             scanner.close();
 
@@ -100,8 +101,9 @@ public class Storage {
             String[] details = s.split(" \\| ");
 
             String type = details[0];
-            boolean isDone = details[1].equals("1");
-            String title = details[2];
+            Priority priority = Priority.valueOf(details[1]);
+            boolean isDone = details[2].equals("1");
+            String title = details[3];
 
             Task task = null;
 
@@ -126,6 +128,7 @@ public class Storage {
                 if (isDone) {
                     task.mark();
                 }
+                task.setPriority(priority);
             }
 
             return task;
@@ -178,7 +181,10 @@ public class Storage {
                     .getToInputString());
         }
 
-        return String.format("%s | %s | %s %s", type, task.isDone() ? "1" : "0", task.getTitle(), details);
+        String priorityString = task.getPriority().getName();
+
+        return String.format("%s | %s | %s | %s %s", type, priorityString,
+                task.isDone() ? "1" : "0", task.getTitle(), details);
     }
 
 }

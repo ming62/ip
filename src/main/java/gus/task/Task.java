@@ -6,6 +6,7 @@ package gus.task;
 public class Task {
     private String title;
     private boolean isDone;
+    private Priority priority;
 
     /**
      * Creates a task with the title.
@@ -19,6 +20,7 @@ public class Task {
 
         this.title = t;
         isDone = false;
+        this.priority = Priority.NONE;
     }
 
     /**
@@ -33,6 +35,24 @@ public class Task {
      */
     public void unmark() {
         this.isDone = false;
+    }
+
+    /**
+     * Sets the priority of the task.
+     *
+     * @param priority The priority to set
+     */
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * Gets the priority of the task.
+     *
+     * @return The priority of this task
+     */
+    public Priority getPriority() {
+        return priority;
     }
 
     /**
@@ -70,6 +90,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.isDone ? "X" : " ", this.title);
+        return String.format("[%s][%s] %s", this.priority.getSymbol(), this.isDone ? "X" : " ", this.title);
     }
 }

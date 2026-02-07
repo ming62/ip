@@ -14,7 +14,7 @@ public class DeadlineTaskTest {
     public void testDeadlineCreation() {
         DeadlineTask deadlinet = new DeadlineTask("Eat", "2026-01-24 1800");
         assertEquals("Eat", deadlinet.getTitle());
-        assertEquals("[D][ ] Eat (by Jan 24 2026 18:00)", deadlinet.toString());
+        assertEquals("[D] [ ][ ] Eat (by Jan 24 2026 18:00)", deadlinet.toString());
     }
 
     @Test

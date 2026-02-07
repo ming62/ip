@@ -10,6 +10,7 @@ import gus.gui.Ui;
 import gus.storage.Storage;
 import gus.task.DeadlineTask;
 import gus.task.EventTask;
+import gus.task.Priority;
 import gus.task.Task;
 import gus.task.TodoTask;
 import gus.ui.TaskList;
@@ -41,7 +42,8 @@ public class Gus {
 
     /**
      * Executes the main program loop.
-     * Reads user input, parse command, execute command, and save tasks on bye command.
+     * Reads user input, parse command, execute command, and save tasks on bye
+     * command.
      */
     public void run() {
         ui.showWelcome();
@@ -95,7 +97,7 @@ public class Gus {
      * Executes command and returns response string for GUI.
      *
      * @param command The command to execute.
-     * @param input The user input.
+     * @param input   The user input.
      * @return The response string.
      * @throws GusException If command execution fails.
      */
@@ -119,6 +121,8 @@ public class Gus {
             return handleOn(input);
         case FIND:
             return handleFind(input);
+        case PRI:
+            return handlePriority(input);
         case ELSE:
             throw new GusException("I'm afraid I don't understand that request. Please clarify.");
         case BYE:
@@ -128,12 +132,11 @@ public class Gus {
         }
     }
 
-
     /**
      * Executes the given command with the provided input.
      *
      * @param command The command to execute.
-     * @param input The user input string.
+     * @param input   The user input string.
      * @throws GusException If the command execution fails.
      */
     private void executeCommand(Command command, String input) throws GusException {
@@ -257,6 +260,27 @@ public class Gus {
         String k = Parser.parseDesc(input, "find");
         Task[] matchingTasks = tasks.getListByKeyword(k);
         return ui.showFoundTasks(matchingTasks);
+    }
+
+    /**
+     * Sets priority level for the given tasks
+     *
+     * @param input The user input containing the priority level and tasks.
+     * @return A formatted string with the modified tasks.
+     * @throws GusException if Priority level or indices are invalid
+     */
+    private String handlePriority(String input) throws GusException {
+        String[] details = Parser.parsePriority(input);
+        Priority priority = Priority.valueOf(details[0]);
+
+        int[] indices = new int[details.length - 1];
+        for (int i = 1; i < details.length; i++) {
+            indices[i - 1] = Integer.parseInt(details[i]) - 1;
+        }
+
+        Task[] updatedTasks = tasks.setPriority(priority, indices);
+
+        return ui.showPriorityUpdated(updatedTasks);
     }
 
     public static void main(String[] args) {

@@ -171,4 +171,14 @@ public class Ui {
         }
         return formatTaskList("Here are the matching tasks in your list:", tasks);
     }
+
+    /**
+     * Returns a message showing the priority updated tasks.
+     *
+     * @param tasks The tasks with updated priority.
+     * @return The formatted message.
+     */
+    public String showPriorityUpdated(Task[] tasks) {
+        return formatTaskList("Excellent. I have updated the task(s):", tasks);
+    }
 }

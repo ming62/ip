@@ -14,6 +14,7 @@ public class Parser {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     /**
      * Parses the command from user input.
      *
@@ -43,6 +44,8 @@ public class Parser {
             return Command.ON;
         } else if (lowerCaseInput.equals("find") || lowerCaseInput.startsWith("find ")) {
             return Command.FIND;
+        } else if (lowerCaseInput.equals("pri") || lowerCaseInput.startsWith("pri ")) {
+            return Command.PRI;
         } else {
             return Command.ELSE;
         }
@@ -75,10 +78,10 @@ public class Parser {
         }
 
         indices = java.util.Arrays.stream(indices)
-            .boxed()
-            .sorted(java.util.Collections.reverseOrder())
-            .mapToInt(Integer::intValue)
-            .toArray();
+                .boxed()
+                .sorted(java.util.Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
 
         return indices;
     }
@@ -209,6 +212,32 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new GusException("Please provide the date in the format yyyy-MM-dd.");
         }
+    }
+
+    /**
+     * Parses priority command from user input.
+     *
+     * @param input The user input string.
+     * @return Array where first element is priority level, rest are task numbers.
+     * @throws GusException If the format is invalid.
+     */
+    public static String[] parsePriority(String input) throws GusException {
+        String details = parseDesc(input, "pri");
+        String[] parts = details.trim().split("\\s+");
+
+        if (parts.length < 2) {
+            throw new GusException("Please specify priority level and at least one task number.");
+        }
+
+        parts[0] = parts[0].toUpperCase();
+
+        try {
+            gus.task.Priority.valueOf(parts[0]);
+        } catch (IllegalArgumentException e) {
+            throw new GusException("Invalid priority level. Please use TOP, MID, LOW, or NONE.");
+        }
+
+        return parts;
     }
 
 }
