@@ -1,4 +1,3 @@
-// ...existing code...
 # Gus — User Guide
 
 Gus is a simple personal assistant chatbot with a GUI for managing tasks.
