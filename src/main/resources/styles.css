@@ -1,0 +1,60 @@
+.root {
+    -fx-font-family: "Inter", "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f6f7f9;
+}
+
+.dialog-box {
+    -fx-spacing: 8;
+}
+
+/* Avatar tweaks */
+.avatar {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 6, 0, 0, 1);
+}
+
+/* Bot (left) bubble */
+.dialog-box.gus .dialog {
+    -fx-background-color: rgba(243,245,247,0.85);
+    -fx-background-radius: 10;
+    -fx-padding: 8 10;
+}
+
+/* User (right) bubble */
+.dialog-box.user .dialog {
+    -fx-background-color: rgba(219,238,255,0.9);
+    -fx-background-radius: 10;
+    -fx-padding: 8 10;
+}
+
+.dialog {
+    -fx-font-size: 14px;
+    -fx-text-fill: #111213;
+}
+
+.dialog.error {
+    -fx-font-weight: bold;
+}
+
+/* Input field */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #e1e6eb;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 10;
+    -fx-prompt-text-fill: #9aa6b2;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#2b7cff, #1764e8);
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 6 14;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#3a8bff, #1d74f0);
+}
+
+
