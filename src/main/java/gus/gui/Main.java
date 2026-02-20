@@ -6,6 +6,7 @@ import gus.Gus;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -26,6 +27,14 @@ public class Main extends Application {
             java.net.URL css = Main.class.getResource("/styles.css");
             if (css != null) {
                 scene.getStylesheets().add(css.toExternalForm());
+            }
+            stage.setTitle("Gus");
+            try {
+                var iconStream = Main.class.getResourceAsStream("/images/Gus.jpg");
+                if (iconStream != null) {
+                    stage.getIcons().add(new Image(iconStream));
+                }
+            } catch (Exception e) {
             }
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setGus(gus);

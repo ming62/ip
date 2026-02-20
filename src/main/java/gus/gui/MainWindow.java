@@ -1,7 +1,10 @@
 package gus.gui;
 
 import gus.Gus;
+import javafx.application.Platform;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -56,6 +59,12 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getGusDialog(response, replyImage)
         );
         userInput.clear();
+
+        if (response != null && response.trim().equals("It has been a pleasure serving you.")) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
     }
 
     private void showWelcomeMessage() {
