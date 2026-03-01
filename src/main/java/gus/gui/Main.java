@@ -35,6 +35,7 @@ public class Main extends Application {
                     stage.getIcons().add(new Image(iconStream));
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setGus(gus);

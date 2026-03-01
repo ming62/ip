@@ -112,10 +112,10 @@ public class Storage {
                 task = new TodoTask(title);
                 break;
             case "D":
-                task = new DeadlineTask(title, details[3]);
+                task = new DeadlineTask(title, details[4]);
                 break;
             case "E":
-                String[] furDetails = details[3].split(" to: ");
+                String[] furDetails = details[4].split(" to: ");
                 String from = furDetails[0].replace("from: ", "");
                 String to = furDetails[1];
                 task = new EventTask(title, from, to);
