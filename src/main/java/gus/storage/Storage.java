@@ -167,23 +167,22 @@ public class Storage {
      */
     public String formatLine(Task task) {
         String type = "";
-
         String details = "";
 
         if (task instanceof TodoTask) {
             type = "T";
         } else if (task instanceof DeadlineTask) {
             type = "D";
-            details = String.format("| %s", ((DeadlineTask) task).getDeadlineInputString());
+            details = " | " + ((DeadlineTask) task).getDeadlineInputString();
         } else if (task instanceof EventTask) {
             type = "E";
-            details = String.format("| from: %s to: %s", ((EventTask) task).getFromInputString(), ((EventTask) task)
-                    .getToInputString());
+            details = " | from: " + ((EventTask) task).getFromInputString() + " to: "
+                    + ((EventTask) task).getToInputString();
         }
 
         String priorityString = task.getPriority().getName();
 
-        return String.format("%s | %s | %s | %s %s", type, priorityString,
+        return String.format("%s | %s | %s | %s%s", type, priorityString,
                 task.isDone() ? "1" : "0", task.getTitle(), details);
     }
 
